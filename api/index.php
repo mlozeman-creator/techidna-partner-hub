@@ -1,44 +1,47 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.4 FINAL
- * Robuuste Token-based Auth & Schone UI
+ * TECHIDNA® PARTNER HUB - V5.5 FORCE SECURE
+ * Speciale afhandeling voor Vercel Query Routing
  */
 
-// --- 1. DATA INLADEN ---
+// 1. HAAL DATA OP
 $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
 
-// --- 2. SECURITY LAYER ---
-// Gebruik $_REQUEST in plaats van $_GET voor maximale compatibiliteit op Vercel
+// 2. SECURITY CHECK (EXTREEM ROBUUST)
 $adminSecret = trim(getenv('ADMIN_PASSWORD') ?: 'admin123');
 $partnerId = getenv('BOL_PARTNER_ID') ?: '1234567';
 
-$inputRole = isset($_REQUEST['role']) ? trim($_REQUEST['role']) : '';
-$inputPass = isset($_REQUEST['pass']) ? trim($_REQUEST['pass']) : '';
+// We kijken in ALLE mogelijke bronnen: GET, REQUEST en zelfs de rauwe URI
+$uri = $_SERVER['REQUEST_URI'] ?? '';
+$inputRole = $_GET['role'] ?? ($_REQUEST['role'] ?? '');
+$inputPass = $_GET['pass'] ?? ($_REQUEST['pass'] ?? '');
 
-// De Admin Check
-$isAdmin = ($inputRole === 'admin' && $inputPass === $adminSecret);
-
-// --- 3. PRODUCT CATALOGUS ---
-function getProductDetails($ean) {
-    $catalog = [
-        "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/"],
-        "8721325324559" => ["title" => "Techidna® Premium - Pasjeshouder Mini - Zwart", "image" => "https://media.s-bol.com/m5p6B180WpE3/WnVpOJx/550x550.jpg", "price" => 12.95, "url" => "https://www.bol.com/nl/nl/p/techidna-mini-portemonnee-pasjeshouder-sleuteltasje-zwart-vegan-leer-met-rits/9300000253717739/"],
-        "8721325324009" => ["title" => "Techidna® Premium - Kabel Organiser Case", "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg", "price" => 11.99, "url" => "https://www.bol.com/nl/nl/p/techidna-kabel-organiser-tas-zwart-compact-design-waterafstotend-geschikt-voor-elektronische-accessoires/9300000257047329/"],
-        "8721325324085" => ["title" => "Techidna® Premium - Documentenmap A4 - Bruin", "image" => "https://media.s-bol.com/YLlVGQxvkYJM/Z4vKLL2/550x396.jpg", "price" => 19.95, "url" => "https://www.bol.com/nl/nl/p/techidna-documentenmap-a4-veganleer-magneetsluiting-bruin/9300000237445292/"],
-        "8721325324542" => ["title" => "Techidna® Premium - Wireless Mic Pro Set", "image" => "https://media.s-bol.com/yggrkkGE09nw/qjVrNVG/550x550.jpg", "price" => 14.99, "url" => "https://www.bol.com/nl/nl/p/techidna-draadloze-usb-microfoon-2-microfoons-usb-c-ontvanger-voor-smartphones-tablets-laptops-plug-play-vlogs-interviews-opnames/9300000236951588/"],
-        "8721325324610" => ["title" => "Techidna® Premium - Ergonomische Muismat", "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg", "price" => 19.95, "url" => "https://www.bol.com/nl/nl/p/techidna-ergonomische-muismat-met-polssteun-paars-gelkussen-antislip-compact/9300000269418990/"],
-        "8721325324498" => ["title" => "Techidna® Premium - Perzisch Tapijt Muismat", "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg", "price" => 12.50, "url" => "https://www.bol.com/nl/nl/p/perzisch-tapijt-muismat-25x18-cm-anti-slip-rubber-onderkant-warm-rood/9300000249510020/"],
-        "8721325324221" => ["title" => "Techidna® Premium - Kabel Tape Pro - Zwart", "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg", "price" => 13.95, "url" => "https://www.bol.com/nl/nl/p/techidna-kabel-tape-25mm-x-15m-zwarte-isolatietape-textieltape-waterproof-hittebestendig-voor-kabelbundels-auto-elektronica-hockeysticks-rackets/9300000241270454/"],
-        "8721325324078" => ["title" => "Techidna® Premium - Kapton Tape - 25mm", "image" => "https://media.s-bol.com/BZ5y3zqoVlO2/r0nlmW2/550x686.jpg", "price" => 12.95, "url" => "https://www.bol.com/nl/nl/p/techidna-hittebestendige-kapton-tape-25mm-x-33m-polyimide-tape-voor-3d-printer-sublimatie-solderen-isolatie/9300000238449004/"],
-        "8721325324016" => ["title" => "Techidna® Premium - Teflon Tape Pro", "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg", "price" => 9.95, "url" => "https://www.bol.com/nl/nl/p/techidna-teflon-tape-2-rollen-20-meter-totaal-12mm-x-0-075mm-voor-water-gas-lucht-sanitair/9300000241265911/"]
-    ];
-    return $catalog[$ean] ?? null;
+// Extra check: staat het wachtwoord ergens in de URL-string?
+if (empty($inputPass) && strpos($uri, 'pass=') !== false) {
+    parse_str(parse_url($uri, PHP_URL_QUERY), $query);
+    $inputPass = $query['pass'] ?? '';
+    $inputRole = $query['role'] ?? '';
 }
 
-function getAffiliateLink($url, $pid) {
-    return "https://partner.bol.com/click/click?p=2&s=" . $pid . "&t=url&url=" . urlencode($url) . "&f=TID";
+$isAdmin = (trim($inputRole) === 'admin' && trim($inputPass) === $adminSecret);
+
+// 3. CATALOGUS (Zelfde als voorheen)
+function getProductDetails($ean) {
+    $catalog = [
+        "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/9300000247123648/"],
+        "8721325324559" => ["title" => "Techidna® Premium - Pasjeshouder Mini - Zwart", "image" => "https://media.s-bol.com/m5p6B180WpE3/WnVpOJx/550x550.jpg", "price" => 12.95, "url" => "https://www.bol.com/nl/nl/p/9300000253717739/"],
+        "8721325324009" => ["title" => "Techidna® Premium - Kabel Organiser Case", "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg", "price" => 11.99, "url" => "https://www.bol.com/nl/nl/p/9300000257047329/"],
+        "8721325324085" => ["title" => "Techidna® Premium - Documentenmap A4 - Bruin", "image" => "https://media.s-bol.com/YLlVGQxvkYJM/Z4vKLL2/550x396.jpg", "price" => 19.95, "url" => "https://www.bol.com/nl/nl/p/9300000237445292/"],
+        "8721325324542" => ["title" => "Techidna® Premium - Wireless Mic Pro Set", "image" => "https://media.s-bol.com/yggrkkGE09nw/qjVrNVG/550x550.jpg", "price" => 14.99, "url" => "https://www.bol.com/nl/nl/p/9300000236951588/"],
+        "8721325324610" => ["title" => "Techidna® Premium - Ergonomische Muismat", "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg", "price" => 19.95, "url" => "https://www.bol.com/nl/nl/p/9300000269418990/"],
+        "8721325324498" => ["title" => "Techidna® Premium - Perzisch Tapijt Muismat", "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg", "price" => 12.50, "url" => "https://www.bol.com/nl/nl/p/9300000249510020/"],
+        "8721325324221" => ["title" => "Techidna® Premium - Kabel Tape Pro - Zwart", "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg", "price" => 13.95, "url" => "https://www.bol.com/nl/nl/p/9300000241270454/"],
+        "8721325324078" => ["title" => "Techidna® Premium - Kapton Tape - 25mm", "image" => "https://media.s-bol.com/BZ5y3zqoVlO2/r0nlmW2/550x686.jpg", "price" => 12.95, "url" => "https://www.bol.com/nl/nl/p/9300000238449004/"],
+        "8721325324016" => ["title" => "Techidna® Premium - Teflon Tape Pro", "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg", "price" => 9.95, "url" => "https://www.bol.com/nl/nl/p/9300000241265911/"]
+    ];
+    return $catalog[$ean] ?? null;
 }
 ?>
 <!DOCTYPE html>
@@ -51,35 +54,30 @@ function getAffiliateLink($url, $pid) {
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --bol: #004899; --techidna: #00d1b2; --dark: #0f172a; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
-        .admin-bar { background: #1e293b; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; border-bottom: 2px solid #ff4757; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin:0; padding:0; }
+        .admin-bar { background: #ff4757; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; position: sticky; top: 0; z-index: 9999; font-weight: bold; }
         .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1rem 0; }
         .hero { background: var(--dark); color: white; padding: 60px 0; border-radius: 0 0 50px 50px; text-align: center; }
         .product-card { border: none; border-radius: 24px; transition: 0.4s; background: white; height: 100%; border: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
         .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
-        .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; transition: 0.3s; }
-        .btn-bol:hover { background: #003366; color: white; transform: scale(1.02); }
+        .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; }
     </style>
 </head>
 <body>
 
 <?php if($isAdmin): ?>
-    <div class="admin-bar shadow-sm">
-        🔒 SECURE ADMIN MODE ACTIVE | 
-        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" class="text-white text-decoration-underline ms-2">Edit Data Source</a>
+    <div class="admin-bar shadow">
+        🔒 SECURE ADMIN MODE: ACTIVE | 
+        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" style="color:white; text-decoration:underline;">Source Code</a> |
+        <a href="index.php" style="color:white; margin-left:10px;">[Exit]</a>
     </div>
 <?php endif; ?>
 
-<nav class="navbar sticky-top">
+<nav class="navbar">
     <div class="container d-flex justify-content-between align-items-center">
         <a href="index.php" class="fw-800 fs-2 text-decoration-none text-dark">
             TECHIDNA<span style="color:var(--techidna)">.</span>
         </a>
-        <div>
-            <?php if($isAdmin): ?>
-                <a href="index.php" class="btn btn-sm btn-danger rounded-pill px-3">Log Out</a>
-            <?php endif; ?>
-        </div>
     </div>
 </nav>
 
@@ -92,9 +90,7 @@ function getAffiliateLink($url, $pid) {
 
 <main class="container mt-5">
     <div class="row mb-5 g-3 justify-content-center">
-        <div class="col-md-5">
-            <input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek een artikel...">
-        </div>
+        <div class="col-md-5"><input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek een artikel..."></div>
         <div class="col-md-3">
             <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4">
                 <option value="default">Sorteer Prijs</option>
@@ -108,19 +104,14 @@ function getAffiliateLink($url, $pid) {
         <?php foreach($store['products'] as $item): 
             $details = getProductDetails($item['ean']);
             if(!$details) continue;
-            $finalUrl = getAffiliateLink($details['url'], $partnerId);
         ?>
         <div class="col-md-6 col-lg-4 product-item" data-title="<?php echo strtolower($details['title']); ?>" data-price="<?php echo $details['price']; ?>">
             <div class="card product-card p-4">
-                <div class="text-center mb-4">
-                    <img src="<?php echo $details['image']; ?>" style="height:200px; width:100%; object-fit:contain;">
-                </div>
+                <div class="text-center mb-4"><img src="<?php echo $details['image']; ?>" style="height:200px; width:100%; object-fit:contain;"></div>
                 <h5 class="fw-bold mb-3" style="min-height: 2.5em;"><?php echo $details['title']; ?></h5>
                 <?php if($isAdmin): ?> <small class="text-muted d-block mb-2">EAN: <?php echo $item['ean']; ?></small> <?php endif; ?>
                 <div class="fs-3 fw-800 text-dark mb-4">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></div>
-                <div class="mt-auto">
-                    <a href="<?php echo $finalUrl; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a>
-                </div>
+                <div class="mt-auto"><a href="<?php echo $details['url']; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a></div>
             </div>
         </div>
         <?php endforeach; ?>
@@ -129,7 +120,7 @@ function getAffiliateLink($url, $pid) {
 
 <footer class="py-5 mt-5 text-center text-muted bg-white border-top">
     <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
-    <small>Versie 5.4 Secure - Final Fix</small>
+    <small>Versie 5.5 - Force Secure Fix</small>
 </footer>
 
 <script>
@@ -151,6 +142,5 @@ function getAffiliateLink($url, $pid) {
     searchInput.addEventListener('input', update);
     sortSelect.addEventListener('change', update);
 </script>
-
 </body>
 </html>
