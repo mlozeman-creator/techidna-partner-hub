@@ -1,38 +1,27 @@
-# Techidna® Partner Hub v5.2 (Secure Edition)
+# Techidna® Partner Hub v5.5 (Enterprise Secure)
 
-De **Techidna® Partner Hub** is een high-performance affiliate platform dat het premium assortiment van Techidna op Bol.com presenteert. Deze versie (5.2) introduceert een verhoogde beveiligingsstandaard voor beheerfuncties.
+De **Techidna® Partner Hub** is een robuust affiliate platform gebouwd met PHP en Vanilla JS. Versie 5.5 introduceert "Force Mode" routing voor maximale compatibiliteit met cloud-omgevingen zoals Vercel.
 
 ## 🚀 Kenmerken
-* **Premium Branding:** Volledig op maat gemaakte interface met de officiële Techidna® huisstijl.
-* **Token-based Authentication:** De beheeromgeving is beveiligd via server-side validatie van een geheim token.
-* **Decoupled Architecture:** Strikte scheiding tussen JSON-data en PHP-logica (Service Layer).
-* **Zero-Latency Filters:** Razendsnelle client-side zoek- en sorteerfunctionaliteit via Vanilla JS.
-* **Cloud Native:** Gebruik van Vercel Environment Variables voor "Secrets Management".
+* **Force Secure Auth:** Token-based authenticatie die werkt via $_REQUEST en URI-parsing.
+* **Secrets Management:** Volledige scheiding van credentials via Vercel Environment Variables.
+* **Premium Grid:** Responsive Bootstrap 5.3 interface met Techidna® branding.
+* **Dynamic Search:** Real-time client-side filtering zonder latency.
 
-## 🔐 Beveiliging & Authenticatie
-In tegenstelling tot eerdere versies is de Admin-modus niet langer publiekelijk zichtbaar of toegankelijk via een simpele URL-parameter. 
+## 🔐 Beheer & Beveiliging
+De beheeromgeving is verborgen en alleen toegankelijk via een geautoriseerde URL-query.
 
-### Toegang tot Admin Mode:
-Toegang wordt alleen verleend indien zowel de juiste `role` als de bijbehorende `pass` (token) worden meegegeven in de URL-query. Dit token wordt op de server gevalideerd tegen de opgeslagen omgevingsvariabele in de cloud.
+### Toegang:
+Gebruik de volgende structuur:
+`https://[domein]/api/index.php?role=admin&pass=[ADMIN_PASSWORD]`
 
-**Vereiste Environment Variables (Vercel Settings):**
-| Variabele | Omschrijving |
-| :--- | :--- |
-| `ADMIN_PASSWORD` | De geheime sleutel voor toegang tot de beheerinterface. |
-| `BOL_PARTNER_ID` | Unieke affiliate ID voor commissie-tracking. |
-| `BOL_CLIENT_ID` | Gereserveerd voor de officiële Bol.com API v10 koppeling. |
+### Vereiste Cloud Variabelen:
+* `ADMIN_PASSWORD`: Server-side gecontroleerd wachtwoord.
+* `BOL_PARTNER_ID`: Affiliate tracking identifier.
 
-## 🛠 Technische Stack
-* **Backend:** PHP 8.x (Logic & Security Layer)
-* **Frontend:** Bootstrap 5.3 & Vanilla JS (ES6+)
-* **Data:** JSON (Single Source of Truth)
-
-## 📂 Projectstructuur
-* `api/index.php`: Core Applicatie, Beveiligingslogica & UI.
-* `data/products.json`: Product-database (EAN-lijst).
-
-## 📈 Ontwikkelproces
-De evolutie van dit project bewoog van onstabiele **Web Scraping** naar een robuuste **Gecureerde Dataset**. Door de logica te scheiden van de data-bron is het systeem "API-ready": de lokale mapping kan direct worden vervangen door een live API-koppeling zonder dat de frontend-integriteit in gevaar komt.
+## 🛠 Projectstructuur
+* `api/index.php`: De "Engine" (Logica, Auth & UI).
+* `data/products.json`: De "Database" (Product EAN's).
 
 ---
-*Ontwikkeld door Mark Lozeman - 2026*
+*Gerealiseerd door Mark Lozeman - 2026*
