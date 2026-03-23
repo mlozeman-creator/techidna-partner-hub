@@ -22,45 +22,51 @@ function getProductDetails($ean) {
         ],
         // PRODUCT 3
         "8721325324009" => [
-            "title" => "Techidna® - USB-C Hub 6-in-1 Multiport Adapter",
-            "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg",
-            "price" => "34.95"
+            "title" => "Techidna® - Kabel organiser tas - Zwart - Compact design - Waterafstotend - Geschikt voor elektronische accessoires",
+            "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg",
+            "price" => "11.99"
         ],
-        // PRODUCT 4 t/m 10: VUL HIER JE EIGEN DATA IN
+        // PRODUCT 4
         "HIER_EAN_4" => [
-            "title" => "Techidna® - Product Naam 4",
-            "image" => "LINK_NAAR_AFBEELDING",
-            "price" => "00.00"
+            "title" => "Techidna® - Hittebestendige Kapton Tape - 25mm x 33m - Polyimide Tape voor 3D-Printer, Sublimatie, Solderen & Isolatie",
+            "image" => "https://media.s-bol.com/BZ5y3zqoVlO2/r0nlmW2/550x686.jpg",
+            "price" => "12.95"
         ],
+       // PRODUCT 5
         "HIER_EAN_5" => [
-            "title" => "Techidna® - Product Naam 5",
-            "image" => "LINK_NAAR_AFBEELDING",
-            "price" => "00.00"
+            "title" => "Techidna® Draadloze USB Microfoon - 2 Microfoons + USB-C Ontvanger - Voor Smartphones, Tablets, Laptops - Plug & Play - Vlogs, Interviews & Opnames",
+            "image" => "https://media.s-bol.com/yggrkkGE09nw/qjVrNVG/550x550.jpg",
+            "price" => "14.99"
         ],
+        // PRODUCT 6
         "HIER_EAN_6" => [
-            "title" => "Techidna® - Product Naam 6",
-            "image" => "LINK_NAAR_AFBEELDING",
-            "price" => "00.00"
+            "title" => "Techidna® - Ergonomische Muismat met Polssteun - Roze & Paars - Gelkussen - Antislip - Compact",
+            "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg",
+            "price" => "19.95"
         ],
+        // PRODUCT 7
         "HIER_EAN_7" => [
-            "title" => "Techidna® - Product Naam 7",
-            "image" => "LINK_NAAR_AFBEELDING",
-            "price" => "00.00"
+            "title" => "Techidna® - Teflon Tape (PTFE) - 2 Rollen - 20 Meter totaal - 12mm x 0,075mm (dun!) - Voor Water, Gas, Lucht & Sanitair",
+            "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg",
+            "price" => "9.95"
         ],
+        // PRODUCT 8
         "HIER_EAN_8" => [
-            "title" => "Techidna® - Product Naam 8",
-            "image" => "LINK_NAAR_AFBEELDING",
+            "title" => "Techidna® - Documentenmap A4 - Veganleer - Magneetsluiting - Bruin",
+            "image" => "https://media.s-bol.com/YLlVGQxvkYJM/Z4vKLL2/550x396.jpg",
+            "price" => "19.95"
+        ],
+        // PRODUCT 9
+        "8721325324498" => [
+            "title" => "Perzisch Tapijt Muismat - 25x18 cm - Anti-Slip Rubber Onderkant - Warm Rood",
+            "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg",
             "price" => "00.00"
         ],
-        "HIER_EAN_9" => [
-            "title" => "Techidna® - Product Naam 9",
-            "image" => "LINK_NAAR_AFBEELDING",
-            "price" => "00.00"
-        ],
+        // PRODUCT 10
         "HIER_EAN_10" => [
             "title" => "Techidna® - Product Naam 10",
-            "image" => "LINK_NAAR_AFBEELDING",
-            "price" => "00.00"
+            "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg",
+            "price" => "14.99"
         ]
     ];
 
