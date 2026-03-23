@@ -1,64 +1,27 @@
-\# ⚡ Techidna x Bol.com Partner Hub
+# Techidna® Partner Hub v5.1
 
-\*\*Developer:\*\* Mark Lozeman (Windesheim)  
+De **Techidna® Partner Hub** is een high-performance affiliate platform dat het premium assortiment van Techidna op Bol.com presenteert. Dit project is ontwikkeld met een focus op snelheid, data-integriteit en een "API-ready" architectuur.
 
-\*\*Architectuur:\*\* Headless E-commerce Bridge  
+## 🚀 Kenmerken
 
-\*\*Status:\*\* 🚀 Live op Vercel Edge
+* **Premium Branding:** Volledig op maat gemaakte interface met de officiële Techidna® huisstijl.
+* **Decoupled Architecture:** Strikt onderscheid tussen data (`JSON`), logica (`PHP`) en presentatie (`Bootstrap/JS`).
+* **Zero-Latency Filters:** Razendsnelle client-side zoek- en sorteerfunctionaliteit (Vanilla JS).
+* **Admin Mode:** Beheerdersomgeving toegankelijk via URL-parameters (`?role=admin`) voor systeemmonitoring en EAN-inspectie.
+* **Cloud Native:** Volledig geoptimaliseerd voor Vercel met gebruik van *Environment Variables*.
 
+## 🛠 Technische Stack
 
+* **Backend:** PHP 8.x (Service Layer & Data Mapping)
+* **Frontend:** HTML5, CSS3 (Custom Properties), Bootstrap 5.3
+* **Interactiviteit:** Vanilla JavaScript (ES6+)
+* **Data Formaat:** JSON (Single Source of Truth)
 
-Dit project is een hoogwaardige "Affiliate Gateway" die het merk \*\*Techidna\*\* verbindt met de verkoopkracht van Bol.com. Het is ontworpen als een schaalbare microservice, losgekoppeld van de educatieve blog-omgeving.
+## 📂 Projectstructuur
 
-
-
-\## 💎 High-End Features (Grade 12 Concept)
-
-\* \*\*Smart API Middleware:\*\* De backend simuleert een real-time koppeling met de Bol.com v4 Catalog API. Dit zorgt voor dynamische voorraadindicatoren en "Live Deals" zonder handmatige updates.
-
-\* \*\*Conversion Engineering:\*\* De interface is gebouwd op basis van e-commerce principes:
-
-&#x20;   \* \*\*Scarcity:\*\* Voorraad-bars die visueel waarschuwen bij lage aantallen.
-
-&#x20;   \* \*\*Social Proof:\*\* Geïntegreerde sterren-ratings gebaseerd op externe marktplaats-data.
-
-&#x20;   \* \*\*Urgency:\*\* Dynamische badges die 'Live Deals' uitlichten op basis van API-output.
-
-\* \*\*Data-Centric Design:\*\* Het assortiment wordt beheerd via een JSON-gebaseerd Content Management Systeem (`data/products.json`), wat zorgt voor een scheiding tussen data en presentatie (Decoupled UI).
-
-
-
-\## 🛠️ Technische Stack
-
-\* \*\*Runtime:\*\* PHP 8.2 (Serverless) op Vercel Edge.
-
-\* \*\*Database:\*\* Flat-file JSON (NoSQL structuur).
-
-\* \*\*Frontend:\*\* Bootstrap 5.3 + Custom Jakarta Sans Typography.
-
-\* \*\*CI/CD:\*\* Automatische builds bij elke `git push` naar de main branch.
-
-
-
-\## 🔐 Admin \& Beheer
-
-De beheerder (Mark Lozeman) heeft toegang tot een verborgen administratieve laag door de URL-parameter `?role=admin` te gebruiken. Dit activeert:
-
-1\. De \*\*Admin Status Badge\*\*.
-
-2\. \*\*Deep-links\*\* direct naar de specifieke productregel in GitHub voor razendsnelle mutaties.
-
-
-
-\## 🚀 Deployment
-
-De site wordt gehost op de globale infrastructuur van Vercel:
-
-`https://techidna-partner-hub.vercel.app`
-
-
-
-\---
-
-\*Gerealiseerd als onderdeel van de meesterproef Software Development.\*
-
+```text
+├── api/
+│   └── index.php       # Core applicatie: Logica, Routing en UI
+├── data/
+│   └── products.json   # De "Database": Bevat de EAN-lijst en configuratie
+└── README.md           # Project documentatie
