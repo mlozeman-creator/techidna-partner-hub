@@ -48,7 +48,7 @@ function getProductDetails($ean) {
         "8721325324498" => [
             "title" => "Techidna® - Perzisch Tapijt Muismat", 
             "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg", 
-            "price" => "12.50",
+            "price" => "14.99",
             "direct_url" => "https://www.bol.com/nl/nl/p/perzisch-tapijt-muismat-25x18-cm-anti-slip-rubber-onderkant-warm-rood/9300000249510020/?cid=1774297538909-5170753745564&bltgh=05d6ba7c-80d3-442b-8532-bcf1e7bf17ed.ProductList_Middle.0.ProductTitle"
         ],
         "8721325324221" => [
