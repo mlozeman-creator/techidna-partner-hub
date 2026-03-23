@@ -1,23 +1,34 @@
 {
   "brand": "Techidna",
-  "owner": "Mark Lozeman",
-  "api_version": "v4.2-Live",
+  "config": {
+    "partner_name": "Mark Lozeman",
+    "target_platform": "Bol.com",
+    "api_version": "v10.0-Hybrid"
+  },
   "products": [
     {
       "ean": "8712345678901",
       "title": "Techidna Pro Wireless Earbuds",
       "price": "49.95",
       "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
-      "bol_url": "https://www.bol.com",
-      "features": ["Noise Cancelling", "24u Batterij", "Spatwaterdicht"]
+      "bol_url": "https://www.bol.com/nl/p/techidna-earbuds/123/",
+      "features": ["Active Noise Cancelling", "24u Batterij", "Spatwaterdicht"]
     },
     {
       "ean": "8712345678902",
       "title": "Techidna Ultra Powerbank 20k",
       "price": "34.50",
       "image": "https://images.unsplash.com/photo-1609091839697-b0ff003e44b8?w=600",
-      "bol_url": "https://www.bol.com",
-      "features": ["Fast Charge", "Compact Design", "Dual USB-C"]
+      "bol_url": "https://www.bol.com/nl/p/techidna-powerbank/456/",
+      "features": ["Fast Charge 3.0", "Dual USB-C Port", "LED Indicator"]
+    },
+    {
+      "ean": "8712345678903",
+      "title": "Techidna Smart Home Hub",
+      "price": "89.00",
+      "image": "https://images.unsplash.com/photo-1558002038-103792e07b94?w=600",
+      "bol_url": "https://www.bol.com/nl/p/techidna-hub/789/",
+      "features": ["Zigbee 3.0", "Voice Control", "App Integration"]
     }
   ]
 }
