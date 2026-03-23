@@ -1,34 +1,31 @@
-# Techidna® Partner Hub v5.6 (Enterprise API-Ready)
+# Techidna® Partner Hub v5.8 (Windesheim Edition)
 
-De **Techidna® Partner Hub** is een geavanceerd affiliate platform ontwikkeld voor Techidna®. Deze versie (5.6) is gebouwd volgens moderne software-architectuur principes, met een strikte scheiding tussen de data-laag en de presentatie-laag.
+[cite_start]De **Techidna® Partner Hub** is een professionele merkwebsite ontwikkeld voor Techidna (Easy Computershop). [cite_start]Dit project demonstreert de vaardigheid om een dynamische webapplicatie te bouwen die voldoet aan industriestandaarden op het gebied van security, performance en schaalbaarheid.
 
-## 🌟 Belangrijkste Kenmerken
-* **Enterprise Security:** Token-based authenticatie via server-side PHP validatie, onzichtbaar voor de client.
-* **API-Ready Architecture:** De applicatie maakt gebruik van een *Service Layer* mapping. Dit betekent dat de overstap van lokale JSON-data naar een live Bol.com API v10 koppeling kan worden gemaakt zonder de frontend te wijzigen.
-* **Real-time System Status:** De footer bevat actieve status-indicatoren die de verbinding met de "API Bridge" en de data-integriteit monitoren via Vercel Environment Variables.
-* **High-Performance UI:** Gebouwd op Bootstrap 5.3 en Vanilla ES6+ JavaScript voor een razendsnelle, "zero-latency" zoek- en sorteerervaring.
+## 🚀 Kenmerken & Functionaliteiten
+[cite_start]Conform het officiële opdrachtformulier bevat de website de volgende onderdelen[cite: 4]:
+* [cite_start]**Home:** Landingspagina die Techidna positioneert als betrouwbaar merk.
+* [cite_start]**Productoverzicht:** Een dynamische catalogus met real-time zoek- en sorteerfuncties (JavaScript)[cite: 4].
+* [cite_start]**Over Techidna:** Pagina gericht op het opbouwen van merkvertrouwen[cite: 4].
+* [cite_start]**FAQ:** Veelgestelde vragen over garantie en de aankoop via bol.com[cite: 4].
+* [cite_start]**Contact:** Directe communicatiemogelijkheid voor bezoekers[cite: 4].
+* [cite_start]**Bol.com Integratie:** Volledige en transparante doorverwijzing naar bol.com conform de affiliate-doelstelling[cite: 2, 4].
 
-## 🛠 Technische Specificaties
+## 🛠 Technische Architectuur
+* [cite_start]**Backend:** PHP 8.x met een custom routering-systeem voor dynamische pagina-inhoud.
+* **Data-laag:** Gecureerde JSON-database (Flat-file architecture). [cite_start]Deze opzet is gekozen voor maximale snelheid en fungeert als blauwdruk voor toekomstige API- of MySQL-koppelingen[cite: 2, 3].
+* [cite_start]**Frontend:** HTML5, CSS3 (Custom Properties), en Bootstrap 5.3 voor een responsive, modern design dat rust en vertrouwen uitstraalt.
+* [cite_start]**Interactiviteit:** Vanilla JavaScript (ES6+) voor directe prijs-sortering en zoekfunctionaliteit zonder laadtijd[cite: 4].
 
-### 🔐 Beveiligde Toegang (Admin Mode)
-De beheeromgeving is uitsluitend toegankelijk via een geautoriseerde query-string:
-`https://[domein]/api/index.php?role=admin&pass=[SECRET_TOKEN]`
+## 🔐 Security & Best Practices
+[cite_start]Het project past **Industrie-standaarden** toe voor veilige webontwikkeling:
+* **Secrets Management:** Gevoelige data zoals het `ADMIN_PASSWORD` en de `BOL_PARTNER_ID` worden opgevraagd via Vercel Environment Variables. [cite_start]Hierdoor blijven credentials buiten de publieke broncode[cite: 4].
+* **Fallback Mechanism:** De code bevat een veilige fallback voor development-omgevingen, die automatisch wordt overschreven door de versleutelde productie-omgeving op de server.
+* [cite_start]**Secure Admin Mode:** Een afgeschermde beheeromgeving (via Token-based Auth) voor het inzien van technische gegevens zoals EAN-codes[cite: 4].
 
-### ☁️ Cloud Configuratie (Vercel)
-De applicatie is "Cloud Native" en haalt haar configuratie uit beveiligde omgevingsvariabelen:
-* `ADMIN_PASSWORD`: De cryptografische sleutel voor beheerderstoegang.
-* `BOL_PARTNER_ID`: De unieke identifier voor affiliate commissies.
-* `BOL_CLIENT_ID`: (Optioneel) Activeert de API Bridge status wanneer geconfigureerd.
-
-## 📂 Project Structuur
-* `/api/index.php`: De kern van de applicatie (Routing, Auth, Mapping & UI).
-* `/data/products.json`: De gecureerde database van het assortiment.
-
-## 🚀 Toekomstige Schaalbaarheid
-Door de gekozen *Middleware* opzet in PHP is de hub voorbereid op:
-1.  **Live Voorraad-checks:** Directe koppeling met de Bol.com Retailer API.
-2.  **Dynamische Prijs-updates:** Automatische synchronisatie van prijzen en aanbiedingen.
-3.  **Multi-Partner Support:** Eenvoudige uitbreiding naar meerdere affiliate netwerken.
+## 📈 SEO & Optimalisatie
+* [cite_start]**Performance:** Geoptimaliseerde laadtijden door minimale server-side overhead[cite: 4].
+* [cite_start]**Toekomstbestendig:** De technische opzet (Service Layer) maakt eenvoudige uitbreiding naar een volledige API-integratie mogelijk[cite: 2, 4].
 
 ---
-*Ontwikkeld door Mark Lozeman - Enterprise Web Development 2026*
+[cite_start]*Ontwikkeld door Mark Lozeman (s1220834) voor Hogeschool Windesheim - 2026*
