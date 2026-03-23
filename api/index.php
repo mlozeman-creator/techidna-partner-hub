@@ -1,7 +1,8 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.1
+ * TECHIDNA® PARTNER HUB - V5.1 STABLE
  * Gecureerde catalogus met Admin-functies en JS-filters
+ * Ontwikkeld door: Mark Lozeman
  */
 
 // --- 1. DATA & CONFIGURATIE ---
@@ -9,12 +10,12 @@ $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
 
-// Beveiliging: IDs via Environment Variables of fallback uit JSON
+// Beveiliging: IDs via Environment Variables (Vercel) of fallback uit JSON
 $partnerId = getenv('BOL_PARTNER_ID') ?: ($store['config']['partner_id'] ?? '1234567');
 $apiReady = getenv('BOL_CLIENT_ID') ? true : false;
 $isAdmin = (isset($_GET['role']) && $_GET['role'] === 'admin');
 
-// --- 2. DE GECUREERDE CATALOGUS (Premium Mapping) ---
+// --- 2. DE GECUREERDE CATALOGUS (Premium Mapping Layer) ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/"],
@@ -127,7 +128,7 @@ function getAffiliateLink($url, $pid) {
 
 <footer class="py-5 mt-5 text-center text-muted bg-white border-top">
     <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
-    <small>Versie 5.0 Premium - API-Ready Architecture</small>
+    <small>Versie 5.1 Premium - API-Ready Architecture</small>
 </footer>
 
 <script>
