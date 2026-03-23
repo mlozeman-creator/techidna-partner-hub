@@ -1,25 +1,11 @@
 {
   "brand": "Techidna",
   "config": {
-    "partner_id": "1234567", 
-    "api_version": "v10.0-Hybrid"
+    "partner_id": "1234567"
   },
   "products": [
-    {
-      "ean": "8721325324221",
-      "title": "Techidna® - Kabel Tape 25mm x 15m",
-      "price": "13.95",
-      "image": "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg",
-      "bol_url": "https://www.bol.com/nl/nl/p/techidna-kabel-tape-25mm-x-15m-zwarte-isolatietape-textieltape-waterproof-hittebestendig-voor-kabelbundels-auto-elektronica-hockeysticks-rackets/9300000241270454/",
-      "features": ["Origineel Techidna", "Direct leverbaar"]
-    },
-    {
-      "ean": "8721325324115",
-      "title": "Techidna® - Compacte Laptoptas voor 14 inch - Bruin",
-      "price": "24.95",
-      "image": "https://media.s-bol.com/YL539loWLLz9/qjDmoA2/550x489.jpg",
-      "bol_url": "https://www.bol.com/nl/nl/p/techidna-laptoptas-14-inch-bruin-pu-leer-werktas-schooltas-aktetas-heren-dames-met-schouderriem-waterafstotend/9300000237213100/",
-      "features": ["Origineel Techidna", "Direct leverbaar"]
-    }
+    { "ean": "8721325324221" },
+    { "ean": "8721325324115" },
+    { "ean": "8721325324184" }
   ]
 }
