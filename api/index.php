@@ -8,69 +8,58 @@ $partnerId = $store['config']['partner_id'] ?? '1234567';
 // --- 2. DE HANDMATIGE CATALOGUS (Jouw 10 demo-artikelen) ---
 function getProductDetails($ean) {
     $catalog = [
-        // PRODUCT 1
         "8721325324221" => [
             "title" => "Techidna® - Kabel Tape 25mm x 15m - Zwart",
             "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg",
             "price" => "13.95"
         ],
-        // PRODUCT 2
         "8721325324115" => [
             "title" => "Techidna® - Laptoptas 14 inch - Compact Bruin",
             "image" => "https://media.s-bol.com/YL539loWLLz9/qjDmoA2/550x489.jpg",
             "price" => "24.95"
         ],
-        // PRODUCT 3
         "8721325324009" => [
-            "title" => "Techidna® - Kabel organiser tas - Zwart - Compact design - Waterafstotend - Geschikt voor elektronische accessoires",
+            "title" => "Techidna® - Kabel organiser tas - Zwart - Compact design",
             "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg",
             "price" => "11.99"
         ],
-        // PRODUCT 4
-        "HIER_EAN_4" => [
-            "title" => "Techidna® - Hittebestendige Kapton Tape - 25mm x 33m - Polyimide Tape voor 3D-Printer, Sublimatie, Solderen & Isolatie",
+        "8721325324078" => [
+            "title" => "Techidna® - Hittebestendige Kapton Tape - 25mm x 33m",
             "image" => "https://media.s-bol.com/BZ5y3zqoVlO2/r0nlmW2/550x686.jpg",
             "price" => "12.95"
         ],
-       // PRODUCT 5
-        "HIER_EAN_5" => [
-            "title" => "Techidna® Draadloze USB Microfoon - 2 Microfoons + USB-C Ontvanger - Voor Smartphones, Tablets, Laptops - Plug & Play - Vlogs, Interviews & Opnames",
+        "8721325324542" => [
+            "title" => "Techidna® Draadloze USB Microfoon - 2 Microfoons + USB-C",
             "image" => "https://media.s-bol.com/yggrkkGE09nw/qjVrNVG/550x550.jpg",
             "price" => "14.99"
         ],
-        // PRODUCT 6
-        "HIER_EAN_6" => [
-            "title" => "Techidna® - Ergonomische Muismat met Polssteun - Roze & Paars - Gelkussen - Antislip - Compact",
+        "8721325324610" => [
+            "title" => "Techidna® - Ergonomische Muismat met Polssteun - Paars",
             "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg",
             "price" => "19.95"
         ],
-        // PRODUCT 7
-        "HIER_EAN_7" => [
-            "title" => "Techidna® - Teflon Tape (PTFE) - 2 Rollen - 20 Meter totaal - 12mm x 0,075mm (dun!) - Voor Water, Gas, Lucht & Sanitair",
+        "8721325324016" => [
+            "title" => "Techidna® - Teflon Tape (PTFE) - 2 Rollen - 20 Meter",
             "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg",
             "price" => "9.95"
         ],
-        // PRODUCT 8
-        "HIER_EAN_8" => [
-            "title" => "Techidna® - Documentenmap A4 - Veganleer - Magneetsluiting - Bruin",
+        "8721325324085" => [
+            "title" => "Techidna® - Documentenmap A4 - Veganleer - Bruin",
             "image" => "https://media.s-bol.com/YLlVGQxvkYJM/Z4vKLL2/550x396.jpg",
             "price" => "19.95"
         ],
-        // PRODUCT 9
         "8721325324498" => [
-            "title" => "Perzisch Tapijt Muismat - 25x18 cm - Anti-Slip Rubber Onderkant - Warm Rood",
+            "title" => "Perzisch Tapijt Muismat - 25x18 cm - Warm Rood",
             "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg",
-            "price" => "00.00"
+            "price" => "12.50"
         ],
-        // PRODUCT 10
-        "HIER_EAN_10" => [
-            "title" => "Techidna® - Product Naam 10",
-            "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg",
-            "price" => "14.99"
+        "8721325324108" => [
+            "title" => "Techidna® - Laptophoes 14 inch - Waterafstotend - Blauw",
+            "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg",
+            "price" => "17.99"
         ]
     ];
 
-    // Als een EAN niet in bovenstaande lijst staat, krijgt hij deze fallback (de tape)
     $data = $catalog[$ean] ?? [
         "title" => "Techidna® Premium Product",
         "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg",
@@ -82,7 +71,7 @@ function getProductDetails($ean) {
         'image' => $data['image'],
         'price' => $data['price'],
         'url'   => "https://www.bol.com/nl/nl/s/?searchtext=" . $ean,
-        'stock' => rand(2, 12) // Willekeurige voorraad voor de "live" look
+        'stock' => rand(2, 12)
     ];
 }
 
@@ -121,35 +110,37 @@ function getAffiliateLink($url, $pid) {
 
 <header class="hero text-center">
     <div class="container">
-        <h1 class="fw-800 display-4 mb-2">Techidna® Shop</h1>
-        <p class="lead opacity-75">Ontdek ons exclusieve assortiment op Bol.com</p>
+        <h1 class="fw-800 display-4 mb-2 text-white">Techidna® Shop</h1>
+        <p class="lead opacity-75 text-white">Ontdek ons exclusieve assortiment op Bol.com</p>
     </div>
 </header>
 
 <div class="container mb-5">
     <div class="row g-4">
-        <?php foreach($store['products'] as $item): 
-            $details = getProductDetails($item['ean']);
-            $finalUrl = getAffiliateLink($details['url'], $partnerId);
-        ?>
-        <div class="col-md-6 col-lg-4">
-            <div class="card product-card p-4 shadow-sm">
-                <div class="text-center mb-4">
-                    <img src="<?php echo $details['image']; ?>" class="rounded-3" style="height:200px; width:100%; object-fit:contain;">
-                </div>
-                <h5 class="fw-bold mb-2"><?php echo $details['title']; ?></h5>
-                <div class="price-text mb-4">€ <?php echo $details['price']; ?></div>
-                
-                <div class="mt-auto">
-                    <div class="d-flex justify-content-between small mb-3">
-                        <span class="text-muted">Status:</span>
-                        <span class="text-success fw-bold">✓ <?php echo $details['stock']; ?> op voorraad</span>
+        <?php if($store && isset($store['products'])): ?>
+            <?php foreach($store['products'] as $item): 
+                $details = getProductDetails($item['ean']);
+                $finalUrl = getAffiliateLink($details['url'], $partnerId);
+            ?>
+            <div class="col-md-6 col-lg-4">
+                <div class="card product-card p-4 shadow-sm">
+                    <div class="text-center mb-4">
+                        <img src="<?php echo $details['image']; ?>" class="rounded-3" style="height:200px; width:100%; object-fit:contain;">
                     </div>
-                    <a href="<?php echo $finalUrl; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a>
+                    <h5 class="fw-bold mb-2"><?php echo $details['title']; ?></h5>
+                    <div class="price-text mb-4">€ <?php echo $details['price']; ?></div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between small mb-3">
+                            <span class="text-muted">Status:</span>
+                            <span class="text-success fw-bold">✓ <?php echo $details['stock']; ?> op voorraad</span>
+                        </div>
+                        <a href="<?php echo $finalUrl; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </div>
 
