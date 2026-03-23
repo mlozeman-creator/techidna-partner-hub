@@ -24,7 +24,7 @@ function getProductDetails($ean) {
         "8721325324009" => [
             "title" => "Techidna® - Kabel organiser tas - Zwart", 
             "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg", 
-            "price" => "11.99",
+            "price" => "11.95",
             "direct_url" => "https://www.bol.com/nl/nl/p/techidna-kabel-organiser-tas-zwart-compact-design-waterafstotend-geschikt-voor-elektronische-accessoires/9300000257047329/?cid=1774297661424-6846047636534&bltgh=574c13b9-58c4-4a55-8dde-79a755ab095a.ProductList_Middle.0.ProductTitle"
         ],
         "8721325324085" => [
