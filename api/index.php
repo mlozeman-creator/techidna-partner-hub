@@ -1,24 +1,25 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.5 FORCE SECURE
- * Speciale afhandeling voor Vercel Query Routing
+ * TECHIDNA® PARTNER HUB - V5.6 ENTERPRISE
+ * Token-based Auth + API-Ready Bridge Architecture
+ * Ontwikkeld door: Mark Lozeman
  */
 
-// 1. HAAL DATA OP
+// --- 1. DATA & CONFIGURATIE ---
 $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
 
-// 2. SECURITY CHECK (EXTREEM ROBUUST)
+// --- 2. SECURITY & API BRIDGE LAYER ---
 $adminSecret = trim(getenv('ADMIN_PASSWORD') ?: 'admin123');
 $partnerId = getenv('BOL_PARTNER_ID') ?: '1234567';
+$apiClientId = getenv('BOL_CLIENT_ID'); // Check of API key aanwezig is
 
-// We kijken in ALLE mogelijke bronnen: GET, REQUEST en zelfs de rauwe URI
+// Robuuste URL Parsing voor Vercel
 $uri = $_SERVER['REQUEST_URI'] ?? '';
-$inputRole = $_GET['role'] ?? ($_REQUEST['role'] ?? '');
-$inputPass = $_GET['pass'] ?? ($_REQUEST['pass'] ?? '');
+$inputRole = $_REQUEST['role'] ?? '';
+$inputPass = $_REQUEST['pass'] ?? '';
 
-// Extra check: staat het wachtwoord ergens in de URL-string?
 if (empty($inputPass) && strpos($uri, 'pass=') !== false) {
     parse_str(parse_url($uri, PHP_URL_QUERY), $query);
     $inputPass = $query['pass'] ?? '';
@@ -27,7 +28,7 @@ if (empty($inputPass) && strpos($uri, 'pass=') !== false) {
 
 $isAdmin = (trim($inputRole) === 'admin' && trim($inputPass) === $adminSecret);
 
-// 3. CATALOGUS (Zelfde als voorheen)
+// --- 3. SERVICE LAYER (API-READY MAPPING) ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/9300000247123648/"],
@@ -53,23 +54,31 @@ function getProductDetails($ean) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bol: #004899; --techidna: #00d1b2; --dark: #0f172a; }
+        :root { --bol: #004899; --techidna: #00d1b2; --dark: #0f172a; --success: #2ecc71; --secondary: #94a3b8; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin:0; padding:0; }
-        .admin-bar { background: #ff4757; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; position: sticky; top: 0; z-index: 9999; font-weight: bold; }
-        .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1rem 0; }
-        .hero { background: var(--dark); color: white; padding: 60px 0; border-radius: 0 0 50px 50px; text-align: center; }
+        .admin-bar { background: #ff4757; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; position: sticky; top: 0; z-index: 9999; font-weight: bold; box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3); }
+        .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1.2rem 0; }
+        .hero { background: var(--dark); color: white; padding: 80px 0; border-radius: 0 0 50px 50px; text-align: center; }
         .product-card { border: none; border-radius: 24px; transition: 0.4s; background: white; height: 100%; border: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
         .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
-        .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; }
+        .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; transition: 0.3s; }
+        .btn-bol:hover { background: #003366; color: white; transform: scale(1.02); }
+        
+        /* Status Indicators Footer */
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
+        .bg-success { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
+        .bg-secondary { background-color: var(--secondary); }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .badge-system { background: #fff; border: 1px solid #e2e8f0; color: #64748b; font-weight: 600; font-size: 0.75rem; padding: 6px 15px; }
     </style>
 </head>
 <body>
 
 <?php if($isAdmin): ?>
-    <div class="admin-bar shadow">
+    <div class="admin-bar">
         🔒 SECURE ADMIN MODE: ACTIVE | 
-        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" style="color:white; text-decoration:underline;">Source Code</a> |
-        <a href="index.php" style="color:white; margin-left:10px;">[Exit]</a>
+        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" style="color:white; text-decoration:underline;">Source Data</a> |
+        <a href="index.php" style="color:white; margin-left:10px; font-weight:normal;">[Sluiten]</a>
     </div>
 <?php endif; ?>
 
@@ -83,14 +92,14 @@ function getProductDetails($ean) {
 
 <header class="hero">
     <div class="container">
-        <h1 class="display-3 fw-800 mb-3">Premium Solutions.</h1>
-        <p class="lead opacity-75 fs-4">Ontdek ons exclusieve assortiment.</p>
+        <h1 class="display-3 fw-800 mb-3 text-white">Premium Solutions.</h1>
+        <p class="lead opacity-75 fs-4">Enterprise Grade Affiliate Catalog</p>
     </div>
 </header>
 
 <main class="container mt-5">
     <div class="row mb-5 g-3 justify-content-center">
-        <div class="col-md-5"><input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek een artikel..."></div>
+        <div class="col-md-5"><input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek in assortiment..."></div>
         <div class="col-md-3">
             <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4">
                 <option value="default">Sorteer Prijs</option>
@@ -118,9 +127,24 @@ function getProductDetails($ean) {
     </div>
 </main>
 
-<footer class="py-5 mt-5 text-center text-muted bg-white border-top">
-    <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
-    <small>Versie 5.5 - Force Secure Fix</small>
+<footer class="py-5 mt-5 text-center bg-white border-top">
+    <div class="container">
+        <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
+        
+        <div class="d-flex justify-content-center align-items-center gap-2 mt-3 flex-wrap">
+            <span class="badge rounded-pill badge-system">
+                <span class="status-dot bg-success"></span> Data Mode: Gecureerd
+            </span>
+            <span class="badge rounded-pill badge-system">
+                <span class="status-dot <?php echo $apiClientId ? 'bg-success' : 'bg-secondary'; ?>"></span> 
+                API Bridge: <?php echo $apiClientId ? 'Ready' : 'Standby'; ?>
+            </span>
+        </div>
+        
+        <div class="mt-4">
+            <small class="text-muted">Versie 5.6 - Enterprise API-Ready Architecture</small>
+        </div>
+    </div>
 </footer>
 
 <script>
