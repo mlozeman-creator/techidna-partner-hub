@@ -1,10 +1,10 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.7 WINDESHEIM EDITION
- * Inclusief routering voor Home, Producten, Over, FAQ en Contact
+ * TECHIDNA® PARTNER HUB - V5.8 FINAL MASTER
+ * Integratie van alle Windesheim pagina's + Sorteer/Filter functionaliteit
  */
 
-// --- 1. CONFIGURATIE & AUTH ---
+// --- 1. CONFIGURATIE ---
 $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
@@ -12,11 +12,10 @@ $store = json_decode($raw, true);
 $adminSecret = trim(getenv('ADMIN_PASSWORD') ?: 'admin123');
 $partnerId = getenv('BOL_PARTNER_ID') ?: '1234567';
 
-// Routering: welke pagina moeten we tonen?
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 $isAdmin = (isset($_REQUEST['role']) && $_REQUEST['role'] === 'admin' && isset($_REQUEST['pass']) && $_REQUEST['pass'] === $adminSecret);
 
-// --- 2. PRODUCT DATA ---
+// --- 2. DATA MAPPING LAYER ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/9300000247123648/"],
@@ -48,8 +47,8 @@ function getProductDetails($ean) {
         .nav-link { font-weight: 600; color: var(--dark); }
         .nav-link.active { color: var(--techidna) !important; }
         .hero { background: var(--dark); color: white; padding: 80px 0; border-radius: 0 0 50px 50px; text-align: center; }
-        .admin-bar { background: #ff4757; color: white; padding: 8px; text-align: center; font-size: 0.8rem; }
-        .product-card { border-radius: 20px; border: 1px solid #eee; transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
+        .admin-bar { background: #ff4757; color: white; padding: 8px; text-align: center; font-size: 0.8rem; position: sticky; top:0; z-index: 10000; }
+        .product-card { border-radius: 20px; border: 1px solid #eee; transition: 0.3s; height: 100%; display: flex; flex-direction: column; background: white; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         footer { background: white; border-top: 1px solid #eee; padding: 40px 0; margin-top: 60px; }
     </style>
@@ -57,7 +56,7 @@ function getProductDetails($ean) {
 <body>
 
 <?php if($isAdmin): ?>
-    <div class="admin-bar">🔒 SECURE ADMIN MODE ACTIVE | <a href="index.php" class="text-white">Exit</a></div>
+    <div class="admin-bar">🔒 SECURE ADMIN MODE ACTIVE | <a href="index.php" class="text-white text-decoration-underline">Exit Admin</a></div>
 <?php endif; ?>
 
 <nav class="navbar navbar-expand-lg sticky-top">
@@ -81,33 +80,67 @@ function getProductDetails($ean) {
 <?php if($page == 'home'): ?>
     <header class="hero">
         <div class="container">
-            <h1 class="display-3 fw-800 mb-3">Premium Tech Essentials.</h1>
-            <p class="lead opacity-75 fs-4 mb-4">Wij bouwen de brug tussen kwaliteit en jouw werkplek.</p>
+            <h1 class="display-3 fw-800 mb-3 text-white">Premium Tech Essentials.</h1>
+            <p class="lead opacity-75 fs-4 mb-4">Focus, Kwaliteit en Vertrouwen in elke werkplek.</p>
             <a href="index.php?page=producten" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white; font-weight:700;">Bekijk Assortiment</a>
         </div>
     </header>
-    <section class="container py-5 text-center">
-        <div class="row py-5">
-            <div class="col-md-4"><h3>Focus</h3><p class="text-muted">Geen afleiding, alleen de beste tools.</p></div>
-            <div class="col-md-4"><h3>Vertrouwen</h3><p class="text-muted">Geleverd via het vertrouwde bol.com netwerk.</p></div>
-            <div class="col-md-4"><h3>Kwaliteit</h3><p class="text-muted">Premium materialen voor langdurig gebruik.</p></div>
+    <div class="container py-5 mt-4 text-center">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4">
+                    <h3 class="fw-bold">100% Focus</h3>
+                    <p class="text-muted">Onze producten zijn ontworpen om afleiding te elimineren.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4">
+                    <h3 class="fw-bold">Bol.com Partner</h3>
+                    <p class="text-muted">Veilig en vertrouwd bestellen via het grootste platform.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4">
+                    <h3 class="fw-bold">Premium Design</h3>
+                    <p class="text-muted">Duurzame materialen met een moderne uitstraling.</p>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 
 <?php elseif($page == 'producten'): ?>
     <div class="container mt-5">
-        <h2 class="fw-800 mb-4 text-center">Onze Producten</h2>
-        <div class="row g-4">
+        <h2 class="fw-800 mb-4 text-center">Onze Catalogus</h2>
+        
+        <div class="row mb-5 g-3 justify-content-center">
+            <div class="col-md-5">
+                <input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek een artikel...">
+            </div>
+            <div class="col-md-3">
+                <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4">
+                    <option value="default">Sorteer op prijs</option>
+                    <option value="low">Laag naar Hoog</option>
+                    <option value="high">Hoog naar Laag</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-4" id="productGrid">
             <?php foreach($store['products'] as $item): 
                 $details = getProductDetails($item['ean']);
                 if(!$details) continue;
             ?>
-            <div class="col-md-4">
+            <div class="col-md-6 col-lg-4 product-item" data-title="<?php echo strtolower($details['title']); ?>" data-price="<?php echo $details['price']; ?>">
                 <div class="card product-card p-4">
-                    <img src="<?php echo $details['image']; ?>" class="img-fluid mb-3" style="height:200px; object-fit:contain;">
-                    <h5 class="fw-bold"><?php echo $details['title']; ?></h5>
-                    <p class="fs-4 fw-800 mt-2">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></p>
-                    <a href="<?php echo $details['url']; ?>" target="_blank" class="btn w-100 rounded-pill py-3 mt-auto" style="background:var(--bol); color:white; font-weight:700;">Bekijk op bol.com</a>
+                    <div class="text-center mb-4">
+                        <img src="<?php echo $details['image']; ?>" style="height:180px; object-fit:contain;">
+                    </div>
+                    <h5 class="fw-bold mb-3" style="min-height: 2.5em;"><?php echo $details['title']; ?></h5>
+                    <?php if($isAdmin): ?> <small class="text-muted d-block mb-2">EAN: <?php echo $item['ean']; ?></small> <?php endif; ?>
+                    <div class="fs-4 fw-800 text-dark mb-4">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></div>
+                    <div class="mt-auto">
+                        <a href="<?php echo $details['url']; ?>" target="_blank" class="btn w-100 rounded-pill py-3" style="background:var(--bol); color:white; font-weight:700;">Bekijk op bol.com</a>
+                    </div>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -118,53 +151,81 @@ function getProductDetails($ean) {
     <div class="container py-5">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h2 class="fw-800 mb-4">Het Verhaal achter Techidna</h2>
-                <p class="lead">Techidna is ontstaan vanuit een passie voor efficiëntie en design op de werkvloer.</p>
-                <p>Als onderdeel van Easy Computershop richten wij ons op het cureren van producten die jouw dagelijkse workflow verbeteren. Of het nu gaat om kabelmanagement of ergonomische tools, wij kiezen alleen voor het beste.</p>
+                <h2 class="fw-800 mb-4">Over Techidna®</h2>
+                <p class="lead">Wij geloven dat een opgeruimde werkplek leidt tot een scherpere focus.</p>
+                <p>Techidna is een merknaam van Easy Computershop. Wij cureren een specifiek assortiment van kantoorartikelen en technische hulpmiddelen die uitblinken in eenvoud en kwaliteit.</p>
             </div>
-            <div class="col-md-6 text-center">
-                <div class="p-5 bg-light rounded-5 border">Logo / Brand Image</div>
-            </div>
+            <div class="col-md-6"><div class="p-5 bg-light rounded-5 border text-center text-muted">BRAND STORY IMAGE</div></div>
         </div>
     </div>
 
 <?php elseif($page == 'faq'): ?>
     <div class="container py-5">
         <h2 class="fw-800 mb-5 text-center">Veelgestelde Vragen</h2>
-        <div class="accordion accordion-flush mx-auto" style="max-width:800px;" id="faqAcc">
-            <div class="accordion-item border-bottom py-3">
-                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q1">Waarom bestel ik via bol.com?</button></h2>
-                <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Bol.com is onze logistieke partner. Dit garandeert een snelle levering en betrouwbare klantenservice.</div></div>
+        <div class="accordion accordion-flush mx-auto shadow-sm rounded-4 overflow-hidden" style="max-width:800px;" id="faqAcc">
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q1">Verkopen jullie direct vanaf deze site?</button></h2>
+                <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body text-muted">Nee, wij zijn een informatieve merkwebsite. Voor de veiligheid en logistiek verwijzen we je door naar onze officiële partner bol.com.</div></div>
             </div>
-            <div class="accordion-item border-bottom py-3">
-                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Hoe zit het met garantie?</button></h2>
-                <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Op alle Techidna producten geldt de standaard wettelijke garantie. De afhandeling verloopt soepel via jouw bol.com account.</div></div>
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Hoe zit het met de garantie?</button></h2>
+                <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body text-muted">Op alle artikelen geldt de volledige fabrieksgarantie. Bij aankoop via bol.com geniet je bovendien van hun uitstekende retourvoorwaarden.</div></div>
             </div>
         </div>
     </div>
 
 <?php elseif($page == 'contact'): ?>
     <div class="container py-5 text-center">
-        <h2 class="fw-800 mb-4">Neem Contact Op</h2>
-        <p class="mb-5">Vragen over onze producten? Wij helpen je graag verder.</p>
-        <div class="card p-5 border-0 shadow-sm mx-auto" style="max-width:600px; border-radius:30px;">
-            <p class="fs-5 fw-bold mb-1">Techidna Customer Support</p>
-            <p class="text-muted mb-4">Via Easy Computershop</p>
-            <a href="mailto:info@techidna.nl" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white;">Stuur een E-mail</a>
+        <h2 class="fw-800 mb-4">Contact</h2>
+        <div class="card p-5 border-0 shadow-sm mx-auto rounded-5" style="max-width:600px;">
+            <h5>Heeft u vragen over een product?</h5>
+            <p class="text-muted">Techidna is onderdeel van Easy Computershop.</p>
+            <a href="mailto:info@techidna.nl" class="btn btn-lg rounded-pill px-5 mt-3" style="background:var(--techidna); color:white; font-weight:700;">Stuur een e-mail</a>
         </div>
     </div>
 <?php endif; ?>
 
 <footer class="text-center">
     <div class="container">
-        <p class="mb-1 fw-bold">Techidna® Brand Experience</p>
+        <p class="mb-1 fw-800">Techidna® Brand Experience</p>
         <p class="text-muted small">Mark Lozeman &bull; Windesheim s1220834</p>
-        <div class="mt-3">
-            <span class="badge rounded-pill bg-light text-dark border px-3 py-2">Versie 5.7 - Flat-file Architecture</span>
-        </div>
+        <div class="mt-4"><span class="badge rounded-pill bg-light text-dark border px-3 py-2">Versie 5.8 - Enterprise & Windesheim Edition</span></div>
     </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // DE SORTEER- EN FILTERLOGICA (Alleen op de productenpagina)
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const grid = document.getElementById('productGrid');
+    
+    if(grid) {
+        const items = Array.from(document.getElementsByClassName('product-item'));
+
+        function update() {
+            const query = searchInput.value.toLowerCase();
+            const sort = sortSelect.value;
+            
+            items.forEach(el => {
+                const title = el.getAttribute('data-title');
+                el.style.display = title.includes(query) ? 'block' : 'none';
+            });
+
+            const visible = items.filter(el => el.style.display !== 'none');
+            
+            if (sort === 'low') {
+                visible.sort((a,b) => a.getAttribute('data-price') - b.getAttribute('data-price'));
+            } else if (sort === 'high') {
+                visible.sort((a,b) => b.getAttribute('data-price') - a.getAttribute('data-price'));
+            }
+
+            visible.forEach(el => grid.appendChild(el));
+        }
+
+        searchInput.addEventListener('input', update);
+        sortSelect.addEventListener('change', update);
+    }
+</script>
 </body>
 </html>
