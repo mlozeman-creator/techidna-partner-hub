@@ -67,7 +67,7 @@ function getProductDetails($ean) {
             "title" => "Techidna® - Teflon Tape (PTFE) - 2 Rollen", 
             "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg", 
             "price" => "9.95",
-            "direct_url" => "https://www.bol.com/nl/nl/s/?searchtext=8721325324016"
+            "direct_url" => "https://www.bol.com/nl/nl/p/techidna-teflon-tape-2-rollen-20-meter-totaal-12mm-x-0-075mm-voor-water-gas-lucht-sanitair/9300000241265911/?cid=1774297353920-8849744073513&bltgh=98910a28-13dc-4762-aba5-d97efd5bf9f1.ProductList_Middle.0.ProductTitle"
         ]
     ];
 
