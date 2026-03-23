@@ -4,15 +4,15 @@
     "partner_id": "1234567"
   },
   "products": [
-    { "ean": "8721325324221" },
-    { "ean": "8721325324115" },
-    { "ean": "8721325324009" },
-    { "ean": "8721325324078" },
-    { "ean": "8721325324542" },
-    { "ean": "8721325324610" },
-    { "ean": "8721325324016" },
-    { "ean": "8721325324085" },
-    { "ean": "8721325324498" },
-    { "ean": "8721325324108" }
+    { "ean": "8721325324115" }, { "comment": "Laptoptas Bruin" },
+    { "ean": "8721325324108" }, { "comment": "Laptophoes Blauw" },
+    { "ean": "8721325324009" }, { "comment": "Kabel Tas" },
+    { "ean": "8721325324085" }, { "comment": "Documentenmap" },
+    { "ean": "8721325324542" }, { "comment": "Microfoons" },
+    { "ean": "8721325324610" }, { "comment": "Muismat Paars" },
+    { "ean": "8721325324498" }, { "comment": "Tapijt Muismat" },
+    { "ean": "8721325324221" }, { "comment": "Kabel Tape Zwart" },
+    { "ean": "8721325324078" }, { "comment": "Kapton Tape" },
+    { "ean": "8721325324016" }, { "comment": "Teflon Tape" }
   ]
 }
