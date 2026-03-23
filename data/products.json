@@ -1,0 +1,23 @@
+{
+  "brand": "Techidna",
+  "owner": "Mark Lozeman",
+  "api_version": "v4.2-Live",
+  "products": [
+    {
+      "ean": "8712345678901",
+      "title": "Techidna Pro Wireless Earbuds",
+      "price": "49.95",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+      "bol_url": "https://www.bol.com",
+      "features": ["Noise Cancelling", "24u Batterij", "Spatwaterdicht"]
+    },
+    {
+      "ean": "8712345678902",
+      "title": "Techidna Ultra Powerbank 20k",
+      "price": "34.50",
+      "image": "https://images.unsplash.com/photo-1609091839697-b0ff003e44b8?w=600",
+      "bol_url": "https://www.bol.com",
+      "features": ["Fast Charge", "Compact Design", "Dual USB-C"]
+    }
+  ]
+}
