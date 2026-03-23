@@ -1,30 +1,26 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.2 SECURE
- * Gecureerde catalogus met Token-based Admin Authentication
- * Ontwikkeld door: Mark Lozeman
+ * TECHIDNA® PARTNER HUB - V5.4 FINAL
+ * Robuuste Token-based Auth & Schone UI
  */
 
-// --- 1. DATA & CONFIGURATIE ---
+// --- 1. DATA INLADEN ---
 $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
 
 // --- 2. SECURITY LAYER ---
-// IDs en wachtwoorden veilig ophalen uit Vercel Environment
-$partnerId = getenv('BOL_PARTNER_ID') ?: ($store['config']['partner_id'] ?? '1234567');
-$adminSecret = getenv('ADMIN_PASSWORD') ?: 'admin123'; // Fallback voor lokaal
-$apiReady = getenv('BOL_CLIENT_ID') ? true : false;
+// Gebruik $_REQUEST in plaats van $_GET voor maximale compatibiliteit op Vercel
+$adminSecret = trim(getenv('ADMIN_PASSWORD') ?: 'admin123');
+$partnerId = getenv('BOL_PARTNER_ID') ?: '1234567';
 
-/** * TOKEN-BASED AUTH: 
- * Alleen toegang als ?role=admin EN ?pass=[jouw_wachtwoord] in de URL staan.
- */
-$isAdmin = (
-    isset($_GET['role']) && $_GET['role'] === 'admin' && 
-    isset($_GET['pass']) && $_GET['pass'] === $adminSecret
-);
+$inputRole = isset($_REQUEST['role']) ? trim($_REQUEST['role']) : '';
+$inputPass = isset($_REQUEST['pass']) ? trim($_REQUEST['pass']) : '';
 
-// --- 3. DE GECUREERDE CATALOGUS ---
+// De Admin Check
+$isAdmin = ($inputRole === 'admin' && $inputPass === $adminSecret);
+
+// --- 3. PRODUCT CATALOGUS ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/"],
@@ -58,32 +54,30 @@ function getAffiliateLink($url, $pid) {
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
         .admin-bar { background: #1e293b; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; border-bottom: 2px solid #ff4757; }
         .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1rem 0; }
-        .hero { background: var(--dark); color: white; padding: 70px 0; border-radius: 0 0 50px 50px; text-align: center; }
+        .hero { background: var(--dark); color: white; padding: 60px 0; border-radius: 0 0 50px 50px; text-align: center; }
         .product-card { border: none; border-radius: 24px; transition: 0.4s; background: white; height: 100%; border: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
         .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
         .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; transition: 0.3s; }
         .btn-bol:hover { background: #003366; color: white; transform: scale(1.02); }
-        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
     </style>
 </head>
 <body>
 
 <?php if($isAdmin): ?>
     <div class="admin-bar shadow-sm">
-        <span class="status-dot <?php echo $apiReady ? 'bg-success' : 'bg-warning'; ?>"></span>
-        SECURE ADMIN MODE: <?php echo $apiReady ? 'API CONNECTED' : 'STANDBY (MANUAL MAPPING)'; ?> | 
+        🔒 SECURE ADMIN MODE ACTIVE | 
         <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" class="text-white text-decoration-underline ms-2">Edit Data Source</a>
     </div>
 <?php endif; ?>
 
 <nav class="navbar sticky-top">
     <div class="container d-flex justify-content-between align-items-center">
-        <a href="https://techidna-partner-hub.vercel.app/" class="fw-800 fs-2 text-decoration-none text-dark">
+        <a href="index.php" class="fw-800 fs-2 text-decoration-none text-dark">
             TECHIDNA<span style="color:var(--techidna)">.</span>
         </a>
         <div>
             <?php if($isAdmin): ?>
-                <a href="index.php" class="btn btn-sm btn-danger rounded-pill px-3">Log Out Secure Mode</a>
+                <a href="index.php" class="btn btn-sm btn-danger rounded-pill px-3">Log Out</a>
             <?php endif; ?>
         </div>
     </div>
@@ -103,7 +97,7 @@ function getAffiliateLink($url, $pid) {
         </div>
         <div class="col-md-3">
             <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4">
-                <option value="default">Sorteer op prijs</option>
+                <option value="default">Sorteer Prijs</option>
                 <option value="low">Laag naar Hoog</option>
                 <option value="high">Hoog naar Laag</option>
             </select>
@@ -122,7 +116,7 @@ function getAffiliateLink($url, $pid) {
                     <img src="<?php echo $details['image']; ?>" style="height:200px; width:100%; object-fit:contain;">
                 </div>
                 <h5 class="fw-bold mb-3" style="min-height: 2.5em;"><?php echo $details['title']; ?></h5>
-                <?php if($isAdmin): ?> <small class="text-muted d-block mb-2 text-uppercase">Serial: <?php echo $item['ean']; ?></small> <?php endif; ?>
+                <?php if($isAdmin): ?> <small class="text-muted d-block mb-2">EAN: <?php echo $item['ean']; ?></small> <?php endif; ?>
                 <div class="fs-3 fw-800 text-dark mb-4">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></div>
                 <div class="mt-auto">
                     <a href="<?php echo $finalUrl; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a>
@@ -135,7 +129,7 @@ function getAffiliateLink($url, $pid) {
 
 <footer class="py-5 mt-5 text-center text-muted bg-white border-top">
     <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
-    <small>Versie 5.2 Secure - Token Auth Architecture</small>
+    <small>Versie 5.4 Secure - Final Fix</small>
 </footer>
 
 <script>
