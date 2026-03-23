@@ -1,34 +1,22 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.6 ENTERPRISE
- * Token-based Auth + API-Ready Bridge Architecture
- * Ontwikkeld door: Mark Lozeman
+ * TECHIDNA® PARTNER HUB - V5.7 WINDESHEIM EDITION
+ * Inclusief routering voor Home, Producten, Over, FAQ en Contact
  */
 
-// --- 1. DATA & CONFIGURATIE ---
+// --- 1. CONFIGURATIE & AUTH ---
 $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
 
-// --- 2. SECURITY & API BRIDGE LAYER ---
 $adminSecret = trim(getenv('ADMIN_PASSWORD') ?: 'admin123');
 $partnerId = getenv('BOL_PARTNER_ID') ?: '1234567';
-$apiClientId = getenv('BOL_CLIENT_ID'); // Check of API key aanwezig is
 
-// Robuuste URL Parsing voor Vercel
-$uri = $_SERVER['REQUEST_URI'] ?? '';
-$inputRole = $_REQUEST['role'] ?? '';
-$inputPass = $_REQUEST['pass'] ?? '';
+// Routering: welke pagina moeten we tonen?
+$page = isset($_GET['page']) ? $_GET['page'] : 'home';
+$isAdmin = (isset($_REQUEST['role']) && $_REQUEST['role'] === 'admin' && isset($_REQUEST['pass']) && $_REQUEST['pass'] === $adminSecret);
 
-if (empty($inputPass) && strpos($uri, 'pass=') !== false) {
-    parse_str(parse_url($uri, PHP_URL_QUERY), $query);
-    $inputPass = $query['pass'] ?? '';
-    $inputRole = $query['role'] ?? '';
-}
-
-$isAdmin = (trim($inputRole) === 'admin' && trim($inputPass) === $adminSecret);
-
-// --- 3. SERVICE LAYER (API-READY MAPPING) ---
+// --- 2. PRODUCT DATA ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/9300000247123648/"],
@@ -50,121 +38,133 @@ function getProductDetails($ean) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techidna® | Partner Hub</title>
+    <title>Techidna® | <?php echo ucfirst($page); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bol: #004899; --techidna: #00d1b2; --dark: #0f172a; --success: #2ecc71; --secondary: #94a3b8; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin:0; padding:0; }
-        .admin-bar { background: #ff4757; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; position: sticky; top: 0; z-index: 9999; font-weight: bold; box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3); }
-        .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1.2rem 0; }
+        :root { --bol: #004899; --techidna: #00d1b2; --dark: #0f172a; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
+        .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1rem 0; }
+        .nav-link { font-weight: 600; color: var(--dark); }
+        .nav-link.active { color: var(--techidna) !important; }
         .hero { background: var(--dark); color: white; padding: 80px 0; border-radius: 0 0 50px 50px; text-align: center; }
-        .product-card { border: none; border-radius: 24px; transition: 0.4s; background: white; height: 100%; border: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
-        .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; transition: 0.3s; }
-        .btn-bol:hover { background: #003366; color: white; transform: scale(1.02); }
-        
-        /* Status Indicators Footer */
-        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
-        .bg-success { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
-        .bg-secondary { background-color: var(--secondary); }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .badge-system { background: #fff; border: 1px solid #e2e8f0; color: #64748b; font-weight: 600; font-size: 0.75rem; padding: 6px 15px; }
+        .admin-bar { background: #ff4757; color: white; padding: 8px; text-align: center; font-size: 0.8rem; }
+        .product-card { border-radius: 20px; border: 1px solid #eee; transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        footer { background: white; border-top: 1px solid #eee; padding: 40px 0; margin-top: 60px; }
     </style>
 </head>
 <body>
 
 <?php if($isAdmin): ?>
-    <div class="admin-bar">
-        🔒 SECURE ADMIN MODE: ACTIVE | 
-        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" style="color:white; text-decoration:underline;">Source Data</a> |
-        <a href="index.php" style="color:white; margin-left:10px; font-weight:normal;">[Sluiten]</a>
-    </div>
+    <div class="admin-bar">🔒 SECURE ADMIN MODE ACTIVE | <a href="index.php" class="text-white">Exit</a></div>
 <?php endif; ?>
 
-<nav class="navbar">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a href="index.php" class="fw-800 fs-2 text-decoration-none text-dark">
-            TECHIDNA<span style="color:var(--techidna)">.</span>
-        </a>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-800 fs-3" href="index.php">TECHIDNA<span style="color:var(--techidna)">.</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link <?php echo $page=='home'?'active':''; ?>" href="index.php?page=home">Home</a></li>
+                <li class="nav-item"><a class="nav-link <?php echo $page=='producten'?'active':''; ?>" href="index.php?page=producten">Producten</a></li>
+                <li class="nav-item"><a class="nav-link <?php echo $page=='over'?'active':''; ?>" href="index.php?page=over">Over Techidna</a></li>
+                <li class="nav-item"><a class="nav-link <?php echo $page=='faq'?'active':''; ?>" href="index.php?page=faq">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link <?php echo $page=='contact'?'active':''; ?>" href="index.php?page=contact">Contact</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
-<header class="hero">
-    <div class="container">
-        <h1 class="display-3 fw-800 mb-3 text-white">Premium Solutions.</h1>
-        <p class="lead opacity-75 fs-4">Enterprise Grade Affiliate Catalog</p>
-    </div>
-</header>
+<?php if($page == 'home'): ?>
+    <header class="hero">
+        <div class="container">
+            <h1 class="display-3 fw-800 mb-3">Premium Tech Essentials.</h1>
+            <p class="lead opacity-75 fs-4 mb-4">Wij bouwen de brug tussen kwaliteit en jouw werkplek.</p>
+            <a href="index.php?page=producten" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white; font-weight:700;">Bekijk Assortiment</a>
+        </div>
+    </header>
+    <section class="container py-5 text-center">
+        <div class="row py-5">
+            <div class="col-md-4"><h3>Focus</h3><p class="text-muted">Geen afleiding, alleen de beste tools.</p></div>
+            <div class="col-md-4"><h3>Vertrouwen</h3><p class="text-muted">Geleverd via het vertrouwde bol.com netwerk.</p></div>
+            <div class="col-md-4"><h3>Kwaliteit</h3><p class="text-muted">Premium materialen voor langdurig gebruik.</p></div>
+        </div>
+    </section>
 
-<main class="container mt-5">
-    <div class="row mb-5 g-3 justify-content-center">
-        <div class="col-md-5"><input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek in assortiment..."></div>
-        <div class="col-md-3">
-            <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4">
-                <option value="default">Sorteer Prijs</option>
-                <option value="low">Laag naar Hoog</option>
-                <option value="high">Hoog naar Laag</option>
-            </select>
+<?php elseif($page == 'producten'): ?>
+    <div class="container mt-5">
+        <h2 class="fw-800 mb-4 text-center">Onze Producten</h2>
+        <div class="row g-4">
+            <?php foreach($store['products'] as $item): 
+                $details = getProductDetails($item['ean']);
+                if(!$details) continue;
+            ?>
+            <div class="col-md-4">
+                <div class="card product-card p-4">
+                    <img src="<?php echo $details['image']; ?>" class="img-fluid mb-3" style="height:200px; object-fit:contain;">
+                    <h5 class="fw-bold"><?php echo $details['title']; ?></h5>
+                    <p class="fs-4 fw-800 mt-2">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></p>
+                    <a href="<?php echo $details['url']; ?>" target="_blank" class="btn w-100 rounded-pill py-3 mt-auto" style="background:var(--bol); color:white; font-weight:700;">Bekijk op bol.com</a>
+                </div>
+            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
-    <div class="row g-4" id="productGrid">
-        <?php foreach($store['products'] as $item): 
-            $details = getProductDetails($item['ean']);
-            if(!$details) continue;
-        ?>
-        <div class="col-md-6 col-lg-4 product-item" data-title="<?php echo strtolower($details['title']); ?>" data-price="<?php echo $details['price']; ?>">
-            <div class="card product-card p-4">
-                <div class="text-center mb-4"><img src="<?php echo $details['image']; ?>" style="height:200px; width:100%; object-fit:contain;"></div>
-                <h5 class="fw-bold mb-3" style="min-height: 2.5em;"><?php echo $details['title']; ?></h5>
-                <?php if($isAdmin): ?> <small class="text-muted d-block mb-2">EAN: <?php echo $item['ean']; ?></small> <?php endif; ?>
-                <div class="fs-3 fw-800 text-dark mb-4">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></div>
-                <div class="mt-auto"><a href="<?php echo $details['url']; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a></div>
+<?php elseif($page == 'over'): ?>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="fw-800 mb-4">Het Verhaal achter Techidna</h2>
+                <p class="lead">Techidna is ontstaan vanuit een passie voor efficiëntie en design op de werkvloer.</p>
+                <p>Als onderdeel van Easy Computershop richten wij ons op het cureren van producten die jouw dagelijkse workflow verbeteren. Of het nu gaat om kabelmanagement of ergonomische tools, wij kiezen alleen voor het beste.</p>
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="p-5 bg-light rounded-5 border">Logo / Brand Image</div>
             </div>
         </div>
-        <?php endforeach; ?>
     </div>
-</main>
 
-<footer class="py-5 mt-5 text-center bg-white border-top">
-    <div class="container">
-        <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
-        
-        <div class="d-flex justify-content-center align-items-center gap-2 mt-3 flex-wrap">
-            <span class="badge rounded-pill badge-system">
-                <span class="status-dot bg-success"></span> Data Mode: Gecureerd
-            </span>
-            <span class="badge rounded-pill badge-system">
-                <span class="status-dot <?php echo $apiClientId ? 'bg-success' : 'bg-secondary'; ?>"></span> 
-                API Bridge: <?php echo $apiClientId ? 'Ready' : 'Standby'; ?>
-            </span>
+<?php elseif($page == 'faq'): ?>
+    <div class="container py-5">
+        <h2 class="fw-800 mb-5 text-center">Veelgestelde Vragen</h2>
+        <div class="accordion accordion-flush mx-auto" style="max-width:800px;" id="faqAcc">
+            <div class="accordion-item border-bottom py-3">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q1">Waarom bestel ik via bol.com?</button></h2>
+                <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Bol.com is onze logistieke partner. Dit garandeert een snelle levering en betrouwbare klantenservice.</div></div>
+            </div>
+            <div class="accordion-item border-bottom py-3">
+                <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Hoe zit het met garantie?</button></h2>
+                <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Op alle Techidna producten geldt de standaard wettelijke garantie. De afhandeling verloopt soepel via jouw bol.com account.</div></div>
+            </div>
         </div>
-        
-        <div class="mt-4">
-            <small class="text-muted">Versie 5.6 - Enterprise API-Ready Architecture</small>
+    </div>
+
+<?php elseif($page == 'contact'): ?>
+    <div class="container py-5 text-center">
+        <h2 class="fw-800 mb-4">Neem Contact Op</h2>
+        <p class="mb-5">Vragen over onze producten? Wij helpen je graag verder.</p>
+        <div class="card p-5 border-0 shadow-sm mx-auto" style="max-width:600px; border-radius:30px;">
+            <p class="fs-5 fw-bold mb-1">Techidna Customer Support</p>
+            <p class="text-muted mb-4">Via Easy Computershop</p>
+            <a href="mailto:info@techidna.nl" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white;">Stuur een E-mail</a>
+        </div>
+    </div>
+<?php endif; ?>
+
+<footer class="text-center">
+    <div class="container">
+        <p class="mb-1 fw-bold">Techidna® Brand Experience</p>
+        <p class="text-muted small">Mark Lozeman &bull; Windesheim s1220834</p>
+        <div class="mt-3">
+            <span class="badge rounded-pill bg-light text-dark border px-3 py-2">Versie 5.7 - Flat-file Architecture</span>
         </div>
     </div>
 </footer>
 
-<script>
-    const searchInput = document.getElementById('searchInput');
-    const sortSelect = document.getElementById('sortSelect');
-    const grid = document.getElementById('productGrid');
-    const items = Array.from(document.getElementsByClassName('product-item'));
-
-    function update() {
-        const query = searchInput.value.toLowerCase();
-        const sort = sortSelect.value;
-        items.forEach(el => el.style.display = el.getAttribute('data-title').includes(query) ? 'block' : 'none');
-        const visible = items.filter(el => el.style.display !== 'none');
-        if (sort === 'low') visible.sort((a,b) => a.getAttribute('data-price') - b.getAttribute('data-price'));
-        if (sort === 'high') visible.sort((a,b) => b.getAttribute('data-price') - a.getAttribute('data-price'));
-        visible.forEach(el => grid.appendChild(el));
-    }
-
-    searchInput.addEventListener('input', update);
-    sortSelect.addEventListener('change', update);
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
