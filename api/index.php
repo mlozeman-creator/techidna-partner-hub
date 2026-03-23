@@ -1,7 +1,7 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.9 ENTERPRISE BRIDGE
- * Routering + Sortering + API Status Indicators
+ * TECHIDNA® PARTNER HUB - V5.9.2 FINAL MASTER
+ * Herstelde FAQ & Contact Styling + Routering + API Status
  */
 
 // --- 1. CONFIGURATIE & AUTH ---
@@ -62,6 +62,9 @@ function getProductDetails($ean) {
         .bg-success { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
         .bg-secondary { background-color: var(--secondary); }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        /* FAQ & Contact Cards */
+        .info-card { border: none; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); overflow: hidden; background: white; }
+        .accordion-button:not(.collapsed) { background-color: #f8fafc; color: var(--techidna); }
     </style>
 </head>
 <body>
@@ -98,9 +101,9 @@ function getProductDetails($ean) {
     </header>
     <div class="container py-5 mt-4 text-center">
         <div class="row g-4">
-            <div class="col-md-4"><h3>100% Focus</h3><p class="text-muted">Elimineer afleiding met de juiste tools.</p></div>
-            <div class="col-md-4"><h3>Bol.com Partner</h3><p class="text-muted">Veilig en vertrouwd bestellen via het grootste platform.</p></div>
-            <div class="col-md-4"><h3>Premium Design</h3><p class="text-muted">Duurzame materialen met een moderne uitstraling.</p></div>
+            <div class="col-md-4"><h3>100% Focus</h3><p class="text-muted">Tools ontworpen voor maximale concentratie.</p></div>
+            <div class="col-md-4"><h3>Vertrouwen</h3><p class="text-muted">Geleverd via het vertrouwde bol.com netwerk.</p></div>
+            <div class="col-md-4"><h3>Design</h3><p class="text-muted">Moderne esthetiek voor de professionele werkomgeving.</p></div>
         </div>
     </div>
 
@@ -136,11 +139,39 @@ function getProductDetails($ean) {
     </div>
 
 <?php elseif($page == 'over'): ?>
-    <div class="container py-5"><h2 class="fw-800 mb-4">Over Techidna®</h2><p class="lead">Onderdeel van Easy Computershop. Wij cureren kantoorartikelen die uitblinken in eenvoud.</p></div>
+    <div class="container py-5 text-center" style="max-width: 800px;">
+        <h2 class="fw-800 mb-4">Over Techidna®</h2>
+        <p class="lead mb-4">Wij geloven in de kracht van eenvoud en kwaliteit op de werkvloer.</p>
+        <p>Techidna® is een merknaam van Easy Computershop. Onze missie is het cureren van technische hulpmiddelen en kantoorartikelen die uitblinken in functionaliteit. Door onze strategische samenwerking met bol.com garanderen we een betrouwbaar aankoopproces voor elke klant.</p>
+    </div>
+
 <?php elseif($page == 'faq'): ?>
-    <div class="container py-5"><h2 class="fw-800 mb-5 text-center">FAQ</h2><p class="text-center text-muted">Vragen over garantie en levering via bol.com.</p></div>
+    <div class="container py-5">
+        <h2 class="fw-800 mb-5 text-center">Veelgestelde Vragen</h2>
+        <div class="card info-card mx-auto" style="max-width:800px;">
+            <div class="accordion accordion-flush" id="faqAcc">
+                <div class="accordion-item">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#q1">Waarom verloopt de aankoop via bol.com?</button></h2>
+                    <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body py-4 text-muted">Bol.com biedt onze klanten de hoogste zekerheid op het gebied van betaling en logistiek. Wij focussen op het merk en de kwaliteit, bol.com zorgt voor de perfecte levering.</div></div>
+                </div>
+                <div class="accordion-item border-top">
+                    <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Hoe zit het met garantie en retour?</button></h2>
+                    <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body py-4 text-muted">Alle Techidna® artikelen vallen onder de standaard wettelijke garantie. Retouren kunnen eenvoudig en gratis worden aangemeld via jouw bol.com account.</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <?php elseif($page == 'contact'): ?>
-    <div class="container py-5 text-center"><h2 class="fw-800 mb-4">Contact</h2><p>info@techidna.nl</p></div>
+    <div class="container py-5 text-center">
+        <h2 class="fw-800 mb-4 text-dark">Contact</h2>
+        <p class="mb-5 text-muted">Vragen over onze producten of samenwerkingen? Wij helpen je graag verder.</p>
+        <div class="card info-card p-5 mx-auto" style="max-width:600px;">
+            <h5 class="fw-bold mb-2">Techidna Customer Support</h5>
+            <p class="text-muted mb-4">Onderdeel van Easy Computershop</p>
+            <a href="mailto:info@techidna.nl" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white; font-weight:700;">Stuur een e-mail</a>
+        </div>
+    </div>
 <?php endif; ?>
 
 <footer>
@@ -151,7 +182,7 @@ function getProductDetails($ean) {
             <span class="badge rounded-pill bg-light text-dark border px-3 py-2"><span class="status-dot bg-success"></span> Data Mode: Gecureerd</span>
             <span class="badge rounded-pill bg-light text-dark border px-3 py-2"><span class="status-dot <?php echo $apiClientId ? 'bg-success' : 'bg-secondary'; ?>"></span> API Bridge: <?php echo $apiClientId ? 'Ready' : 'Standby'; ?></span>
         </div>
-        <div class="mt-4"><small class="text-muted">Versie 5.9 - Enterprise Bridge Architecture</small></div>
+        <div class="mt-4"><small class="text-muted">Versie 5.9.2 - Enterprise Bridge Architecture</small></div>
     </div>
 </footer>
 
