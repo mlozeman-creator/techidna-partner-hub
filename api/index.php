@@ -1,6 +1,6 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5 STABLE
+ * TECHIDNA® PARTNER HUB - V5.1
  * Gecureerde catalogus met Admin-functies en JS-filters
  */
 
@@ -40,15 +40,15 @@ function getAffiliateLink($url, $pid) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techidna® | Partner Hub v5</title>
+    <title>Techidna® | Partner Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --bol: #004899; --techidna: #00d1b2; --dark: #0f172a; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
-        .admin-bar { background: #1e293b; color: white; padding: 12px 0; font-size: 0.85rem; text-align: center; border-bottom: 2px solid #ff4757; }
+        .admin-bar { background: #1e293b; color: white; padding: 10px 0; font-size: 0.85rem; text-align: center; border-bottom: 2px solid #ff4757; }
         .navbar { background: white; border-bottom: 2px solid var(--techidna); padding: 1rem 0; }
-        .hero { background: var(--dark); color: white; padding: 60px 0; border-radius: 0 0 50px 50px; text-align: center; }
+        .hero { background: var(--dark); color: white; padding: 70px 0; border-radius: 0 0 50px 50px; text-align: center; }
         .product-card { border: none; border-radius: 24px; transition: 0.4s; background: white; height: 100%; border: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
         .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
         .btn-bol { background: var(--bol); color: white; border-radius: 50px; font-weight: 700; padding: 14px; text-decoration: none; display: block; text-align: center; transition: 0.3s; }
@@ -61,8 +61,8 @@ function getAffiliateLink($url, $pid) {
 <?php if($isAdmin): ?>
     <div class="admin-bar shadow-sm">
         <span class="status-dot <?php echo $apiReady ? 'bg-success' : 'bg-warning'; ?>"></span>
-        API READY: <?php echo $apiReady ? 'CONNECTED' : 'STANDBY (MAPPED MODE)'; ?> | 
-        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" class="text-white text-decoration-underline ms-2">Edit Source</a>
+        API STATUS: <?php echo $apiReady ? 'CONNECTED' : 'STANDBY (MANUAL MODE)'; ?> | 
+        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" class="text-white text-decoration-underline ms-2">Edit Data</a>
     </div>
 <?php endif; ?>
 
@@ -71,7 +71,7 @@ function getAffiliateLink($url, $pid) {
         <a href="https://techidna-partner-hub.vercel.app/" class="fw-800 fs-2 text-decoration-none text-dark">
             TECHIDNA<span style="color:var(--techidna)">.</span>
         </a>
-        <div class="d-flex gap-2">
+        <div>
             <?php if(!$isAdmin): ?>
                 <a href="?role=admin" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Admin</a>
             <?php else: ?>
@@ -84,7 +84,7 @@ function getAffiliateLink($url, $pid) {
 <header class="hero">
     <div class="container">
         <h1 class="display-3 fw-800 mb-3">Premium Solutions.</h1>
-        <p class="lead opacity-75 fs-4">Gecureerd assortiment via Bol.com Partner Programma.</p>
+        <p class="lead opacity-75 fs-4">Ontdek ons exclusieve assortiment.</p>
     </div>
 </header>
 
@@ -94,8 +94,8 @@ function getAffiliateLink($url, $pid) {
             <input type="text" id="searchInput" class="form-control form-control-lg shadow-sm border-0 rounded-pill px-4" placeholder="Zoek een artikel...">
         </div>
         <div class="col-md-3">
-            <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4 text-muted">
-                <option value="default">Sorteer Prijs</option>
+            <select id="sortSelect" class="form-select form-select-lg shadow-sm border-0 rounded-pill px-4">
+                <option value="default">Sorteer op prijs</option>
                 <option value="low">Laag naar Hoog</option>
                 <option value="high">Hoog naar Laag</option>
             </select>
@@ -126,34 +126,28 @@ function getAffiliateLink($url, $pid) {
 </main>
 
 <footer class="py-5 mt-5 text-center text-muted bg-white border-top">
-    <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience</p>
-    <small>Versie 5.0 | Mark Lozeman</small>
+    <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
+    <small>Versie 5.0 Premium - API-Ready Architecture</small>
 </footer>
 
 <script>
-    // JS FILTER & SORT ENGINE
     const searchInput = document.getElementById('searchInput');
     const sortSelect = document.getElementById('sortSelect');
     const grid = document.getElementById('productGrid');
     const items = Array.from(document.getElementsByClassName('product-item'));
 
-    function updateGrid() {
+    function update() {
         const query = searchInput.value.toLowerCase();
-        const sortOrder = sortSelect.value;
-
-        items.forEach(el => {
-            el.style.display = el.getAttribute('data-title').includes(query) ? 'block' : 'none';
-        });
-
+        const sort = sortSelect.value;
+        items.forEach(el => el.style.display = el.getAttribute('data-title').includes(query) ? 'block' : 'none');
         const visible = items.filter(el => el.style.display !== 'none');
-        if (sortOrder === 'low') visible.sort((a,b) => a.getAttribute('data-price') - b.getAttribute('data-price'));
-        if (sortOrder === 'high') visible.sort((a,b) => b.getAttribute('data-price') - a.getAttribute('data-price'));
-
+        if (sort === 'low') visible.sort((a,b) => a.getAttribute('data-price') - b.getAttribute('data-price'));
+        if (sort === 'high') visible.sort((a,b) => b.getAttribute('data-price') - a.getAttribute('data-price'));
         visible.forEach(el => grid.appendChild(el));
     }
 
-    searchInput.addEventListener('input', updateGrid);
-    sortSelect.addEventListener('change', updateGrid);
+    searchInput.addEventListener('input', update);
+    sortSelect.addEventListener('change', update);
 </script>
 
 </body>
