@@ -41,7 +41,7 @@ function getProductDetails($ean) {
         ],
         "8721325324610" => [
             "title" => "Techidna® - Ergonomische Muismat - Paars", 
-            "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg", 
+            "image" => "https://media.s-bol.com/JovDAMvnvl62/VPmOzQW/550x550.jpg", 
             "price" => "19.95",
             "direct_url" => "https://www.bol.com/nl/nl/p/techidna-ergonomische-muismat-met-polssteun-paars-gelkussen-antislip-compact/9300000269418990/?cid=1774297571371-4658679032520&bltgh=39059fa7-578f-432c-822b-d9a4aad92261.ProductList_Middle.2.ProductTitle"
         ],
