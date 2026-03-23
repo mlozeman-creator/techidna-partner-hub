@@ -1,8 +1,10 @@
 <?php
-// Voeg deze functie toe bovenaan je script
+// Bovenin je bestand, na het laden van de JSON
 function generateTrackingLink($baseUrl, $partnerId) {
-    if (empty($partnerId)) return $baseUrl;
-    // Dit is de officiële manier waarop Bol clicks trackt
+    if (empty($partnerId) || $partnerId === '1234567') {
+        return $baseUrl; // Retourneer normale link als er geen ID is
+    }
+    // De officiële Bol.com Partner Redirect
     return "https://partner.bol.com/click/click?p=2&s=" . $partnerId . "&t=url&url=" . urlencode($baseUrl) . "&f=TID&name=TechidnaHub";
 }
 
