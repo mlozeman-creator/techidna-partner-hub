@@ -1,31 +1,31 @@
-# Techidna® Partner Hub v5.8 (Windesheim Edition)
+# Techidna® Partner Hub v5.9 (Enterprise Bridge Edition)
 
-De **Techidna® Partner Hub** is een professionele merkwebsite ontwikkeld voor Techidna (Easy Computershop). Dit project demonstreert de vaardigheid om een dynamische webapplicatie te bouwen die voldoet aan de industriestandaarden op het gebied van security, performance en schaalbaarheid.
+[cite_start]De **Techidna® Partner Hub** is een geavanceerde merkwebsite ontwikkeld voor Techidna (Easy Computershop)[cite: 2]. [cite_start]Dit project demonstreert een schaalbare, dynamische webapplicatie die voldoet aan de professionele standaarden voor informatievoorziening en conversie-optimalisatie[cite: 3].
 
-## 🚀 Kenmerken & Functionaliteiten
-Conform het officiële opdrachtformulier bevat de website de volgende onderdelen:
-* **Home:** Landingspagina die Techidna positioneert als betrouwbaar merk.
-* **Productoverzicht:** Een dynamische catalogus met Techidna-producten, voorzien van real-time zoek- en sorteerfuncties.
-* **Over Techidna:** Pagina gericht op het opbouwen van merkvertrouwen en het uitleggen van het merkverhaal.
-* **FAQ:** Veelgestelde vragen over garantie en de aankoop via bol.com.
-* **Contact:** Directe communicatiemogelijkheid voor bezoekers.
-* **Bol.com Integratie:** Volledige en transparante doorverwijzing naar bol.com conform de officiële affiliate-doelstelling.
+## 🚀 Gerealiseerde Functionaliteiten
+[cite_start]Conform het officiële opdrachtformulier zijn de volgende onderdelen volledig operationeel[cite: 4]:
+* [cite_start]**Home:** Centrale landingspagina voor merkpositionering en vertrouwen[cite: 2, 4].
+* [cite_start]**Productoverzicht:** Dynamische catalogus met real-time zoek- en sorteerfuncties via Vanilla JavaScript[cite: 4].
+* [cite_start]**Over Techidna:** Pagina gericht op het merkverhaal en autoriteitsopbouw[cite: 4].
+* [cite_start]**FAQ:** Beantwoording van veelgestelde vragen over garantie en de logistieke afhandeling via bol.com[cite: 4].
+* [cite_start]**Contact:** Directe communicatielijn voor klantondersteuning[cite: 4].
+* [cite_start]**Affiliate Bridge:** Transparante doorverwijzing naar bol.com voor de daadwerkelijke aankoop[cite: 2, 4].
 
-## 🛠 Technische Architectuur
-* **Backend:** PHP 8.x met een custom routering-systeem voor het ontsluiten van dynamische pagina-inhoud.
-* **Data-laag:** Gecureerde JSON-database (Flat-file architecture). Deze opzet fungeert als blauwdruk voor toekomstige database- of API-koppelingen.
-* **Frontend:** HTML5, CSS3 en Bootstrap 5.3 voor een responsive, modern design dat rust en vertrouwen uitstraalt.
-* **Interactiviteit:** Vanilla JavaScript (ES6+) voor directe prijs-sortering en zoekfunctionaliteit zonder server-latency.
+## 🛠 Technische Architectuur & Innovatie
+* **PHP Routering:** Een custom server-side router beheert de navigatie en behoudt de sessiestatus (Admin Mode) over verschillende pagina's.
+* **API-Ready Design:** De applicatie maakt gebruik van een *Service Layer* mapping. [cite_start]De actuele "System Status" indicators in de footer monitoren de verbinding met de API-bridge.
+* [cite_start]**Flat-file Database:** Gebruik van een gecureerde JSON-datastructuur voor superieure performance en eenvoudige migratie naar MySQL of live API-koppelingen[cite: 3].
+* [cite_start]**Responsive UI:** Gebouwd met Bootstrap 5.3 en Plus Jakarta Sans voor een moderne, rustige uitstraling die voldoet aan de ontwerpeisen[cite: 4].
 
 ## 🔐 Security & Best Practices
-Het project past industrie-standaarden toe voor veilige webontwikkeling en dataverwerking:
-* **Secrets Management:** Gevoelige data zoals het `ADMIN_PASSWORD` en de `BOL_PARTNER_ID` worden beheerd via Vercel Environment Variables. Hierdoor blijven credentials buiten de publieke broncode.
-* **Secure Admin Mode:** Een afgeschermde beheeromgeving via Token-based Authentication voor het inzien van technische productgegevens (EAN).
-* **Privacy:** Ontworpen met oog op AVG-aspecten door minimale data-opslag en veilige externe doorverwijzingen.
+[cite_start]In het kader van de vaktechnische leerdoelen zijn de volgende veiligheidsmaatregelen geïmplementeerd:
+* [cite_start]**Secrets Management:** Gebruik van Vercel Environment Variables om gevoelige tokens (`ADMIN_PASSWORD`, `BOL_PARTNER_ID`) buiten de broncode te houden.
+* [cite_start]**Role-Based Access:** Beveiligde Admin-modus via token-based authenticatie voor toegang tot technische productmetadata (EAN-codes)[cite: 4].
+* [cite_start]**AVG Compliance:** Ontworpen met een focus op veilige dataverwerking en minimale opslag van privacygevoelige gegevens.
 
-## 📈 SEO & Optimalisatie
-* **Performance:** Geoptimaliseerde laadtijden door minimale server-side overhead en snelle client-side interactie.
-* **Toekomstbestendig:** De technische opzet (Service Layer) maakt eenvoudige uitbreiding naar een volledige API-integratie of MySQL-koppeling mogelijk.
+## 📈 SEO & Performance
+* [cite_start]**Zero-Latency Filtering:** Client-side verwerking van zoekopdrachten zorgt voor een optimale gebruikerservaring[cite: 4].
+* [cite_start]**Toekomstbestendig:** De modulaire opzet maakt directe integratie van de Bol.com Retailer API mogelijk[cite: 2, 4].
 
 ---
-*Ontwikkeld door Mark Lozeman (s1220834) voor Hogeschool Windesheim - 2026*
+[cite_start]*Ontwikkeld door Mark Lozeman (s1220834) voor Hogeschool Windesheim - 2026* [cite: 2]
