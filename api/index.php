@@ -1,7 +1,7 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.1 STABLE
- * Gecureerde catalogus met Admin-functies en JS-filters
+ * TECHIDNA® PARTNER HUB - V5.2 SECURE
+ * Gecureerde catalogus met Token-based Admin Authentication
  * Ontwikkeld door: Mark Lozeman
  */
 
@@ -10,12 +10,21 @@ $jsonPath = __DIR__ . '/../data/products.json';
 $raw = @file_get_contents($jsonPath);
 $store = json_decode($raw, true);
 
-// Beveiliging: IDs via Environment Variables (Vercel) of fallback uit JSON
+// --- 2. SECURITY LAYER ---
+// IDs en wachtwoorden veilig ophalen uit Vercel Environment
 $partnerId = getenv('BOL_PARTNER_ID') ?: ($store['config']['partner_id'] ?? '1234567');
+$adminSecret = getenv('ADMIN_PASSWORD') ?: 'admin123'; // Fallback voor lokaal
 $apiReady = getenv('BOL_CLIENT_ID') ? true : false;
-$isAdmin = (isset($_GET['role']) && $_GET['role'] === 'admin');
 
-// --- 2. DE GECUREERDE CATALOGUS (Premium Mapping Layer) ---
+/** * TOKEN-BASED AUTH: 
+ * Alleen toegang als ?role=admin EN ?pass=[jouw_wachtwoord] in de URL staan.
+ */
+$isAdmin = (
+    isset($_GET['role']) && $_GET['role'] === 'admin' && 
+    isset($_GET['pass']) && $_GET['pass'] === $adminSecret
+);
+
+// --- 3. DE GECUREERDE CATALOGUS ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/"],
@@ -62,8 +71,8 @@ function getAffiliateLink($url, $pid) {
 <?php if($isAdmin): ?>
     <div class="admin-bar shadow-sm">
         <span class="status-dot <?php echo $apiReady ? 'bg-success' : 'bg-warning'; ?>"></span>
-        API STATUS: <?php echo $apiReady ? 'CONNECTED' : 'STANDBY (MANUAL MODE)'; ?> | 
-        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" class="text-white text-decoration-underline ms-2">Edit Data</a>
+        SECURE ADMIN MODE: <?php echo $apiReady ? 'API CONNECTED' : 'STANDBY (MANUAL MAPPING)'; ?> | 
+        <a href="https://github.com/mlozeman-creator/techidna-partner-hub/edit/main/data/products.json" target="_blank" class="text-white text-decoration-underline ms-2">Edit Data Source</a>
     </div>
 <?php endif; ?>
 
@@ -73,10 +82,8 @@ function getAffiliateLink($url, $pid) {
             TECHIDNA<span style="color:var(--techidna)">.</span>
         </a>
         <div>
-            <?php if(!$isAdmin): ?>
-                <a href="?role=admin" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Admin</a>
-            <?php else: ?>
-                <a href="index.php" class="btn btn-sm btn-danger rounded-pill px-3">Exit Admin</a>
+            <?php if($isAdmin): ?>
+                <a href="index.php" class="btn btn-sm btn-danger rounded-pill px-3">Log Out Secure Mode</a>
             <?php endif; ?>
         </div>
     </div>
@@ -115,7 +122,7 @@ function getAffiliateLink($url, $pid) {
                     <img src="<?php echo $details['image']; ?>" style="height:200px; width:100%; object-fit:contain;">
                 </div>
                 <h5 class="fw-bold mb-3" style="min-height: 2.5em;"><?php echo $details['title']; ?></h5>
-                <?php if($isAdmin): ?> <small class="text-muted d-block mb-2">EAN: <?php echo $item['ean']; ?></small> <?php endif; ?>
+                <?php if($isAdmin): ?> <small class="text-muted d-block mb-2 text-uppercase">Serial: <?php echo $item['ean']; ?></small> <?php endif; ?>
                 <div class="fs-3 fw-800 text-dark mb-4">€ <?php echo number_format($details['price'], 2, ',', '.'); ?></div>
                 <div class="mt-auto">
                     <a href="<?php echo $finalUrl; ?>" target="_blank" class="btn-bol">Bestel bij Bol.com</a>
@@ -128,7 +135,7 @@ function getAffiliateLink($url, $pid) {
 
 <footer class="py-5 mt-5 text-center text-muted bg-white border-top">
     <p class="mb-1 fw-600 text-dark">Techidna® Brand Experience &bull; Mark Lozeman</p>
-    <small>Versie 5.1 Premium - API-Ready Architecture</small>
+    <small>Versie 5.2 Secure - Token Auth Architecture</small>
 </footer>
 
 <script>
