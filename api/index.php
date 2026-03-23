@@ -10,7 +10,7 @@ function getProductDetails($ean) {
     // We koppelen hier de EAN aan de EXACTE Bol.com URL
     $catalog = [
         "8721325324467" => [
-            "title" => "Kapton Tape / Polyimide Tape - 3 mm x 33 m - Hittebestendig voor Elektronica & 3D-Printen", 
+            "title" => "Kapton Tape / Polyimide Tape - 3 mm x 33 m", 
             "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", 
             "price" => "4.99",
             "direct_url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/?cid=1774297895087-8880773570188&bltgh=d327422f-e3a9-4489-bb98-aaa703384807.ProductList_Middle.13.ProductTitle"
