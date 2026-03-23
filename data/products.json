@@ -6,22 +6,19 @@
   },
   "products": [
     {
-  "ean": "8721325324115",
-  "title": "Techidna® - Compacte Laptoptas voor 14 inch - Slank Model - Waterafstotend - Bruin - Unisex - Werktas / Schooltas",
-  "price": "24,95",
-  "image": "https://media.s-bol.com/YL539loWLLz9/qjDmoA2/550x489.jpg",
-  "bol_url": "https://www.bol.com/nl/nl/p/techidna-laptoptas-14-inch-bruin-pu-leer-werktas-schooltas-aktetas-heren-dames-met-schouderriem-waterafstotend/9300000237213100/?cid=1774281145509-8145079438128&bltgh=9c19766e-ae85-4774-ac17-51de669ce6ea.ProductList_Middle.8.ProductTitle",
-  "features": [
-    "Origineel Techidna",
-    "Direct leverbaar"
-  ]
-},
-    {
       "ean": "8721325324221",
       "title": "Techidna® - Kabel Tape 25mm x 15m",
       "price": "13.95",
       "image": "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg",
-      "bol_url": "https://www.bol.com/nl/nl/p/techidna-kabel-tape-25mm-x-15m-zwarte-isolatietape-textieltape-waterproof-hittebestendig-voor-kabelbundels-auto-elektronica-hockeysticks-rackets/9300000241270454/?cid=1774280459759-7101990131475&bltgh=9c19766e-ae85-4774-ac17-51de669ce6ea.ProductList_Middle.0.ProductTitle",
+      "bol_url": "https://www.bol.com/nl/nl/p/techidna-kabel-tape-25mm-x-15m-zwarte-isolatietape-textieltape-waterproof-hittebestendig-voor-kabelbundels-auto-elektronica-hockeysticks-rackets/9300000241270454/",
+      "features": ["Origineel Techidna", "Direct leverbaar"]
+    },
+    {
+      "ean": "8721325324115",
+      "title": "Techidna® - Compacte Laptoptas voor 14 inch - Bruin",
+      "price": "24.95",
+      "image": "https://media.s-bol.com/YL539loWLLz9/qjDmoA2/550x489.jpg",
+      "bol_url": "https://www.bol.com/nl/nl/p/techidna-laptoptas-14-inch-bruin-pu-leer-werktas-schooltas-aktetas-heren-dames-met-schouderriem-waterafstotend/9300000237213100/",
       "features": ["Origineel Techidna", "Direct leverbaar"]
     }
   ]
