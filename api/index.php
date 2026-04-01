@@ -1,7 +1,7 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.9.2 FINAL MASTER
- * Herstelde FAQ & Contact Styling + Routering + API Status
+ * TECHIDNA® PARTNER HUB - V5.9.3 FINAL MASTER
+ * Herstelde FAQ & Contact Styling + Routering + API Status + Mail Template
  */
 
 // --- 1. CONFIGURATIE & AUTH ---
@@ -25,16 +25,16 @@ $adminQuery = $isAdmin ? "&role=admin&pass=" . urlencode($inputPass) : "";
 // --- 2. DATA MAPPING ---
 function getProductDetails($ean) {
     $catalog = [
-        "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/?cid=1775070711553-2097658393694&bltgh=ca4a060f-20b5-45f7-934c-cd4bc36e3bee.ProductList_Middle.0.ProductTitle"],
-        "8721325324559" => ["title" => "Techidna® Premium - Pasjeshouder Mini - Zwart", "image" => "https://media.s-bol.com/m5p6B180WpE3/WnVpOJx/550x550.jpg", "price" => 12.95, "url" => "https://www.bol.com/nl/nl/p/techidna-mini-portemonnee-pasjeshouder-sleuteltasje-zwart-vegan-leer-met-rits/9300000253717739/?cid=1775070802402-6251931030080&bltgh=2cc2d7d8-f0f2-4457-b96f-e85bb6ce06cb.ProductList_Middle.5.ProductTitle"],
-        "8721325324009" => ["title" => "Techidna® Premium - Kabel Organiser Case", "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg", "price" => 11.99, "url" => "https://www.bol.com/nl/nl/p/techidna-kabel-organiser-tas-zwart-compact-design-waterafstotend-geschikt-voor-elektronische-accessoires/9300000257047329/?cid=1775070828402-2129458142744&bltgh=2cc2d7d8-f0f2-4457-b96f-e85bb6ce06cb.ProductList_Middle.11.ProductTitle"],
-        "8721325324085" => ["title" => "Techidna® Premium - Documentenmap A4 - Bruin", "image" => "https://media.s-bol.com/YLlVGQxvkYJM/Z4vKLL2/550x396.jpg", "price" => 13.99, "url" => "https://www.bol.com/nl/nl/p/techidna-documentenmap-a4-veganleer-magneetsluiting-bruin/9300000237445292/?cid=1775070907885-6350714241782&bltgh=303d1ced-de17-42af-9019-74bb1f852734.ProductList_Middle.4.ProductTitle"],
-        "8721325324542" => ["title" => "Techidna® Premium - Wireless Mic Pro Set", "image" => "https://media.s-bol.com/yggrkkGE09nw/qjVrNVG/550x550.jpg", "price" => 12.71, "url" => "https://www.bol.com/nl/nl/p/techidna-draadloze-usb-microfoon-2-microfoons-usb-c-ontvanger-voor-smartphones-tablets-laptops-plug-play-vlogs-interviews-opnames/9300000236951588/?cid=1775071001685-1576388523915&bltgh=8dc6af74-3b30-465a-a132-fd2780100d7f.ProductList_Middle.14.ProductTitle"],
-        "8721325324610" => ["title" => "Techidna® Premium - Ergonomische Muismat", "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg", "price" => 16.95, "url" => "https://www.bol.com/nl/nl/p/techidna-ergonomische-muismat-met-polssteun-roze-antislip-gel-kussentje-compact-formaat/9300000228662406/?cid=1775071056370-6514893699911&bltgh=8dc6af74-3b30-465a-a132-fd2780100d7f.ProductList_Middle.17.ProductTitle"],
-        "8721325324498" => ["title" => "Techidna® Premium - Perzisch Tapijt Muismat", "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg", "price" => 11.99, "url" => "https://www.bol.com/nl/nl/p/perzisch-tapijt-muismat-25x18-cm-anti-slip-rubber-onderkant-warm-rood/9300000249510020/?cid=1775071080920-6699681272211&bltgh=e34eb25b-04c0-4197-a08e-4001bf0b93d5.ProductList_Middle.6.ProductTitle"],
-        "8721325324221" => ["title" => "Techidna® Premium - Kabel Tape Pro - Zwart", "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg", "price" => 14.95, "url" => "https://www.bol.com/nl/nl/p/techidna-kabel-tape-25mm-x-15m-zwarte-isolatietape-textieltape-waterproof-hittebestendig-voor-kabelbundels-auto-elektronica-hockeysticks-rackets/9300000241270454/?cid=1775071079119-5979938860312&bltgh=e34eb25b-04c0-4197-a08e-4001bf0b93d5.ProductList_Middle.0.ProductTitle"],
-        "8721325324078" => ["title" => "Techidna® Premium - Kapton Tape - 25mm", "image" => "https://media.s-bol.com/BZ5y3zqoVlO2/r0nlmW2/550x686.jpg", "price" => 9.39, "url" => "https://www.bol.com/nl/nl/p/techidna-hittebestendige-kapton-tape-25mm-x-33m-polyimide-tape-voor-3d-printer-sublimatie-solderen-isolatie/9300000238449004/?cid=1775071121121-7972952477548&bltgh=e34eb25b-04c0-4197-a08e-4001bf0b93d5.ProductList_Middle.3.ProductTitle"],
-        "8721325324016" => ["title" => "Techidna® Premium - Teflon Tape Pro", "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg", "price" => 11.95, "url" => "https://www.bol.com/nl/nl/p/techidna-teflon-tape-2-rollen-20-meter-totaal-12mm-x-0-075mm-voor-water-gas-lucht-sanitair/9300000241265911/?cid=1775071121653-1303682456505&bltgh=e34eb25b-04c0-4197-a08e-4001bf0b93d5.ProductList_Middle.2.ProductTitle"]
+        "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/"],
+        "8721325324559" => ["title" => "Techidna® Premium - Pasjeshouder Mini - Zwart", "image" => "https://media.s-bol.com/m5p6B180WpE3/WnVpOJx/550x550.jpg", "price" => 12.95, "url" => "https://www.bol.com/nl/nl/p/techidna-mini-portemonnee-pasjeshouder-sleuteltasje-zwart-vegan-leer-met-rits/9300000253717739/"],
+        "8721325324009" => ["title" => "Techidna® Premium - Kabel Organiser Case", "image" => "https://media.s-bol.com/RzmlmKW21OLz/G5nM6P5/550x545.jpg", "price" => 11.99, "url" => "https://www.bol.com/nl/nl/p/techidna-kabel-organiser-tas-zwart-compact-design-waterafstotend-geschikt-voor-elektronische-accessoires/9300000257047329/"],
+        "8721325324085" => ["title" => "Techidna® Premium - Documentenmap A4 - Bruin", "image" => "https://media.s-bol.com/YLlVGQxvkYJM/Z4vKLL2/550x396.jpg", "price" => 13.99, "url" => "https://www.bol.com/nl/nl/p/techidna-documentenmap-a4-veganleer-magneetsluiting-bruin/9300000237445292/"],
+        "8721325324542" => ["title" => "Techidna® Premium - Wireless Mic Pro Set", "image" => "https://media.s-bol.com/yggrkkGE09nw/qjVrNVG/550x550.jpg", "price" => 12.71, "url" => "https://www.bol.com/nl/nl/p/techidna-draadloze-usb-microfoon-2-microfoons-usb-c-ontvanger-voor-smartphones-tablets-laptops-plug-play-vlogs-interviews-opnames/9300000236951588/"],
+        "8721325324610" => ["title" => "Techidna® Premium - Ergonomische Muismat", "image" => "https://media.s-bol.com/JBP9xyAmr3mv/qjE1qG0/550x598.jpg", "price" => 16.95, "url" => "https://www.bol.com/nl/nl/p/techidna-ergonomische-muismat-met-polssteun-roze-antislip-gel-kussentje-compact-formaat/9300000228662406/"],
+        "8721325324498" => ["title" => "Techidna® Premium - Perzisch Tapijt Muismat", "image" => "https://media.s-bol.com/n16DP3gD3YlR/g5jy3qj/550x550.jpg", "price" => 11.99, "url" => "https://www.bol.com/nl/nl/p/perzisch-tapijt-muismat-25x18-cm-anti-slip-rubber-onderkant-warm-rood/9300000249510020/"],
+        "8721325324221" => ["title" => "Techidna® Premium - Kabel Tape Pro - Zwart", "image" => "https://media.s-bol.com/v07285qzPJx5/AnODK67/550x550.jpg", "price" => 14.95, "url" => "https://www.bol.com/nl/nl/p/techidna-kabel-tape-25mm-x-15m-zwarte-isolatietape-textieltape-waterproof-hittebestendig-voor-kabelbundels-auto-elektronica-hockeysticks-rackets/9300000241270454/"],
+        "8721325324078" => ["title" => "Techidna® Premium - Kapton Tape - 25mm", "image" => "https://media.s-bol.com/BZ5y3zqoVlO2/r0nlmW2/550x686.jpg", "price" => 9.39, "url" => "https://www.bol.com/nl/nl/p/techidna-hittebestendige-kapton-tape-25mm-x-33m-polyimide-tape-voor-3d-printer-sublimatie-solderen-isolatie/9300000238449004/"],
+        "8721325324016" => ["title" => "Techidna® Premium - Teflon Tape Pro", "image" => "https://media.s-bol.com/4Zwgxlw8zqV6/nZJQBjY/550x550.jpg", "price" => 11.95, "url" => "https://www.bol.com/nl/nl/p/techidna-teflon-tape-2-rollen-20-meter-totaal-12mm-x-0-075mm-voor-water-gas-lucht-sanitair/9300000241265911/"]
     ];
     return $catalog[$ean] ?? null;
 }
@@ -169,7 +169,17 @@ function getProductDetails($ean) {
         <div class="card info-card p-5 mx-auto" style="max-width:600px;">
             <h5 class="fw-bold mb-2">Techidna Customer Support</h5>
             <p class="text-muted mb-4">Onderdeel van Easy Computershop</p>
-            <a href="mailto:glimlach@easycomputershop.nl" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white; font-weight:700;">Stuur een e-mail</a>
+            
+            <?php
+                $subject = rawurlencode("Contactaanvraag via Techidna Partnersite");
+                $body = rawurlencode("Geachte Customer Support,\n\nIk neem contact met u op naar aanleiding van de Techidna Partnersite.\n\nIk heb de volgende vraag/opmerking:\n\n[Typ hier uw bericht]\n\nMet vriendelijke groet,\n\n[Uw Naam]");
+            ?>
+            
+            <a href="mailto:glimlach@easycomputershop.nl?subject=<?php echo $subject; ?>&body=<?php echo $body; ?>" 
+               class="btn btn-lg rounded-pill px-5" 
+               style="background:var(--techidna); color:white; font-weight:700;">
+                Stuur een e-mail
+            </a>
         </div>
     </div>
 <?php endif; ?>
@@ -182,7 +192,7 @@ function getProductDetails($ean) {
             <span class="badge rounded-pill bg-light text-dark border px-3 py-2"><span class="status-dot bg-success"></span> Data Mode: Gecureerd</span>
             <span class="badge rounded-pill bg-light text-dark border px-3 py-2"><span class="status-dot <?php echo $apiClientId ? 'bg-success' : 'bg-secondary'; ?>"></span> API Bridge: <?php echo $apiClientId ? 'Ready' : 'Standby'; ?></span>
         </div>
-        <div class="mt-4"><small class="text-muted">Versie 5.9.2 - Enterprise Bridge Architecture</small></div>
+        <div class="mt-4"><small class="text-muted">Versie 5.9.3 - Enterprise Bridge Architecture</small></div>
     </div>
 </footer>
 
