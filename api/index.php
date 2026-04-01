@@ -169,7 +169,7 @@ function getProductDetails($ean) {
         <div class="card info-card p-5 mx-auto" style="max-width:600px;">
             <h5 class="fw-bold mb-2">Techidna Customer Support</h5>
             <p class="text-muted mb-4">Onderdeel van Easy Computershop</p>
-            <a href="mailto:info@techidna.nl" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white; font-weight:700;">Stuur een e-mail</a>
+            <a href="mailto:glimlach@easycomputershop.nl" class="btn btn-lg rounded-pill px-5" style="background:var(--techidna); color:white; font-weight:700;">Stuur een e-mail</a>
         </div>
     </div>
 <?php endif; ?>
