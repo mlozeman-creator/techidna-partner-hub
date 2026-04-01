@@ -172,7 +172,7 @@ function getProductDetails($ean) {
             
             <?php
                 $subject = rawurlencode("Contactaanvraag via Techidna Partnersite");
-                $body = rawurlencode("Geachte Customer Support,\n\nIk neem contact met u op naar aanleiding van de Techidna Partnersite.\n\nIk heb de volgende vraag/opmerking:\n\n[Typ hier uw bericht]\n\nMet vriendelijke groet,\n\n[Uw Naam]");
+                $body = rawurlencode("Geachte Techidna Customer Support,\n\nIk neem contact met u op naar aanleiding van een vraag over een artikel op de Techidna Partnersite.\n\nIk heb de volgende vraag/opmerking:\n\n[Typ hier uw bericht]\n\nMet vriendelijke groet,\n\n[Uw Naam]");
             ?>
             
             <a href="mailto:glimlach@easycomputershop.nl?subject=<?php echo $subject; ?>&body=<?php echo $body; ?>" 
