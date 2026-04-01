@@ -75,7 +75,7 @@ function getProductDetails($ean) {
 
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-800 fs-3" href="index.php?page=home<?php echo $adminQuery; ?>">TECHIDNA<span style="color:var(--techidna)">.</span></a>
+        <a class="navbar-brand fw-800 fs-3" href="index.php?page=home<?php echo $adminQuery; ?>">TECHIDNA®<span style="color:var(--techidna)">.</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -83,7 +83,7 @@ function getProductDetails($ean) {
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link <?php echo $page=='home'?'active':''; ?>" href="index.php?page=home<?php echo $adminQuery; ?>">Home</a></li>
                 <li class="nav-item"><a class="nav-link <?php echo $page=='producten'?'active':''; ?>" href="index.php?page=producten<?php echo $adminQuery; ?>">Producten</a></li>
-                <li class="nav-item"><a class="nav-link <?php echo $page=='over'?'active':''; ?>" href="index.php?page=over<?php echo $adminQuery; ?>">Over Techidna</a></li>
+                <li class="nav-item"><a class="nav-link <?php echo $page=='over'?'active':''; ?>" href="index.php?page=over<?php echo $adminQuery; ?>">Over Techidna®</a></li>
                 <li class="nav-item"><a class="nav-link <?php echo $page=='faq'?'active':''; ?>" href="index.php?page=faq<?php echo $adminQuery; ?>">FAQ</a></li>
                 <li class="nav-item"><a class="nav-link <?php echo $page=='contact'?'active':''; ?>" href="index.php?page=contact<?php echo $adminQuery; ?>">Contact</a></li>
             </ul>
@@ -167,7 +167,7 @@ function getProductDetails($ean) {
         <h2 class="fw-800 mb-4 text-dark">Contact</h2>
         <p class="mb-5 text-muted">Vragen over onze producten of samenwerkingen? Wij helpen je graag verder.</p>
         <div class="card info-card p-5 mx-auto" style="max-width:600px;">
-            <h5 class="fw-bold mb-2">Techidna Customer Support</h5>
+            <h5 class="fw-bold mb-2">Techidna® Customer Support</h5>
             <p class="text-muted mb-4">Onderdeel van Easy Computershop</p>
             
             <?php
