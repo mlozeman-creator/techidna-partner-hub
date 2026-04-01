@@ -1,7 +1,7 @@
 <?php
 /**
- * TECHIDNA® PARTNER HUB - V5.9.3 FINAL MASTER
- * Herstelde FAQ & Contact Styling + Routering + API Status + Mail Template
+ * TECHIDNA® PARTNER HUB - V5.9.4 FINAL RELEASE
+ * Volledige Brand Consistency + Geoptimaliseerde Mail Template + Routering
  */
 
 // --- 1. CONFIGURATIE & AUTH ---
@@ -22,7 +22,7 @@ $isAdmin = ($inputRole === 'admin' && $inputPass === $adminSecret);
 // Admin query string voor interne links
 $adminQuery = $isAdmin ? "&role=admin&pass=" . urlencode($inputPass) : "";
 
-// --- 2. DATA MAPPING ---
+// --- 2. DATA MAPPING (Service Layer) ---
 function getProductDetails($ean) {
     $catalog = [
         "8721325324467" => ["title" => "Techidna® Premium - Kapton Tape - 3 mm", "image" => "https://media.s-bol.com/RNO2Zw2X5wJw/wjNr35J/550x550.jpg", "price" => 4.99, "url" => "https://www.bol.com/nl/nl/p/kapton-tape-polyimide-tape-3-mm-x-33-m-hittebestendig-voor-elektronica-3d-printen/9300000247123648/"],
@@ -62,7 +62,6 @@ function getProductDetails($ean) {
         .bg-success { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
         .bg-secondary { background-color: var(--secondary); }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        /* FAQ & Contact Cards */
         .info-card { border: none; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); overflow: hidden; background: white; }
         .accordion-button:not(.collapsed) { background-color: #f8fafc; color: var(--techidna); }
     </style>
@@ -192,7 +191,7 @@ function getProductDetails($ean) {
             <span class="badge rounded-pill bg-light text-dark border px-3 py-2"><span class="status-dot bg-success"></span> Data Mode: Gecureerd</span>
             <span class="badge rounded-pill bg-light text-dark border px-3 py-2"><span class="status-dot <?php echo $apiClientId ? 'bg-success' : 'bg-secondary'; ?>"></span> API Bridge: <?php echo $apiClientId ? 'Ready' : 'Standby'; ?></span>
         </div>
-        <div class="mt-4"><small class="text-muted">Versie 5.9.3 - Enterprise Bridge Architecture</small></div>
+        <div class="mt-4"><small class="text-muted">Versie 5.9.4 - Enterprise Bridge Architecture</small></div>
     </div>
 </footer>
 
